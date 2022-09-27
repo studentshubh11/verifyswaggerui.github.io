@@ -1058,19 +1058,19 @@ components:
           allOf:
             - $ref: '#/components/schemas/RouteEntryData'
           title: Route 
-        checkpointActions:
+        checkpoints:
           items:
-            $ref: '#/components/schemas/RouteCheckpointAction'
+            $ref: '#/components/schemas/RouteCheckpointData'
     
-    RouteCheckpointAction:
-      title: Route Entry along with Checkpoint Ids and Actions
+    RouteCheckpointData:
+      title: Route Entry along with set of Checkpoint
       type: object   
       properties:
         checkpointId:
           $ref: '#/components/schemas/Guid'
-        action:
-          type:
-            string
+        order:
+          type: integer
+          format: int
           
         
       
