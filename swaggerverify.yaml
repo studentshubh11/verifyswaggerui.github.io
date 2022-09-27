@@ -802,7 +802,14 @@ components:
       items:
         $ref: '#/components/schemas/CheckpointEntryData'
       minItems: 0
-      
+
+    CheckinTypeData:
+      title: CheckinType Data 
+      type: object
+      properties:
+       fileId: string  
+       barcodeId: string
+       nfcId: string
     LocationData:
       title: Location Entry
       type: object
@@ -902,6 +909,7 @@ components:
         - locationData
         - isSkipped
         - checkInTime
+        - checkinType
        
       properties:
         id:
@@ -938,7 +946,8 @@ components:
           title: User Id Of the Patroling Person     
         location:
           $ref: '#/components/schemas/LocationData'
-        
+        checkinType:
+          $ref: '#/components/schemas/CheckinTypeData'
         description:
           type: string
 
