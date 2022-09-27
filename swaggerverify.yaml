@@ -807,9 +807,15 @@ components:
       title: CheckinType Data 
       type: object
       properties:
-       fileId: string  
-       barcodeId: string
-       nfcId: string
+       fileId:
+        title: Uploaded Image File Id 
+        type: string  
+       barcodeId:
+        title: Uploaded Image File Id 
+        type: string
+       nfcId: 
+        title: Uploaded Image File Id 
+        type: string
     LocationData:
       title: Location Entry
       type: object
