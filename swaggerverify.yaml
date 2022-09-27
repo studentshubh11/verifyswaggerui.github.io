@@ -838,6 +838,7 @@ components:
         - orgId
         - siteId
         - verificationTypeId
+        - uniqueReferenceId
       properties:
         id:
           # Returned by GET, not used in POST/PUT/PATCH
@@ -856,6 +857,10 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Verification Type Id
+        uniqueReferenceId:
+          title: Unique Reference Id  
+          type: string
+            
         name:
           type: string
           format: string
