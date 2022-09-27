@@ -811,10 +811,10 @@ components:
         title: Uploaded Image File Id 
         type: string  
        barcodeId:
-        title: Uploaded Image File Id 
+        title: Barocde Info 
         type: string
        nfcId: 
-        title: Uploaded Image File Id 
+        title: Nfc Info 
         type: string
     LocationData:
       title: Location Entry
