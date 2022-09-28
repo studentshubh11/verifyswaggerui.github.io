@@ -313,6 +313,26 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
+  /routes/checkpoint/{checkpointId}:
+    get:
+      tags:
+        - Route Service
+      summary: Retrieve route entries related to checkpoint
+      description: Retrieve route entries related to checkpoint
+      parameters:
+      - $ref: '#/components/parameters/CheckpointId'
+      responses:
+        200:
+          $ref: '#/components/responses/RouteListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+          
   /routes/site/{siteId}:
     get:
       tags:
@@ -332,7 +352,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
-       
+            
        
   /schedule-patrols:
     
@@ -434,27 +454,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
-          
- 
-  /schedule-patrols/site/{siteId}:
-    get:
-      tags:
-        - Patrol Service
-      summary: Retrieve patrol entries related to site
-      description: Retrieve patrol entries related to site
-      parameters:
-      - $ref: '#/components/parameters/SiteId'
-      responses:
-        200:
-          $ref: '#/components/responses/PatrolListResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'
+
           
   /schedule-patrols/{patrolId}/start:
     put:
@@ -597,7 +597,7 @@ components:
     CheckpointId:
       name: checkpointId
       in: path
-      description: CheckpointId id
+      description: Checkpoint id
       required: true
       schema:
         $ref: '#/components/schemas/Guid'
@@ -802,20 +802,7 @@ components:
       items:
         $ref: '#/components/schemas/CheckpointEntryData'
       minItems: 0
-
-    CheckinTypeData:
-      title: CheckinType Data 
-      type: object
-      properties:
-       fileId:
-        title: Uploaded Image File Id 
-        type: string  
-       barcodeId:
-        title: Barocde Info 
-        type: string
-       nfcId: 
-        title: Nfc Info 
-        type: string
+      
     LocationData:
       title: Location Entry
       type: object
@@ -838,7 +825,6 @@ components:
         - orgId
         - siteId
         - verificationTypeId
-        - uniqueReferenceId
       properties:
         id:
           # Returned by GET, not used in POST/PUT/PATCH
@@ -857,10 +843,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Verification Type Id
-        uniqueReferenceId:
-          title: Unique Reference Id  
-          type: string
-            
         name:
           type: string
           format: string
@@ -920,7 +902,6 @@ components:
         - locationData
         - isSkipped
         - checkInTime
-        - checkinType
        
       properties:
         id:
@@ -957,8 +938,7 @@ components:
           title: User Id Of the Patroling Person     
         location:
           $ref: '#/components/schemas/LocationData'
-        checkinType:
-          $ref: '#/components/schemas/CheckinTypeData'
+        
         description:
           type: string
 
@@ -1088,10 +1068,16 @@ components:
       properties:
         checkpointId:
           $ref: '#/components/schemas/Guid'
+        siteId:
+          $ref: '#/components/schemas/Guid'
         order:
           type: integer
           format: int
-          
+        tags:
+          type: array
+          items:
+            type: string
+        
         
       
     RouteEntryData:
@@ -1111,10 +1097,6 @@ components:
         orgId:
           title: Organisation Id
           type: integer
-        siteId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Site Id 
         name:
           type: string
           format: string
@@ -1207,12 +1189,7 @@ components:
           readOnly: true
         orgId:
           title: Organisation Id
-          type: integer
-        siteId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Site Id  
-          readOnly: true    
+          type: integer   
         routeId:
           allOf:
             - $ref: '#/components/schemas/Guid'
