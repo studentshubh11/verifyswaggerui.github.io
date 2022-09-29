@@ -1026,10 +1026,8 @@ components:
       required:
         - name
         - orgId
-        - siteId
       properties:
         route:
-          # Returned by GET, not used in POST/PUT/PATCH 
           allOf:
             - $ref: '#/components/schemas/RouteEntryData'
           title: Route 
@@ -1043,10 +1041,8 @@ components:
       required:
         - name
         - orgId
-        - siteId
       properties:
         route:
-          # Returned by GET, not used in POST/PUT/PATCH 
           allOf:
             - $ref: '#/components/schemas/RouteEntryData'
           title: Route 
@@ -1062,7 +1058,7 @@ components:
           $ref: '#/components/schemas/Guid'
         siteId:
           $ref: '#/components/schemas/Guid'
-        order:
+        position:
           type: integer
           format: int
         tags:
@@ -1078,7 +1074,6 @@ components:
       required:
         - name
         - orgId
-        - siteId
       properties:
         id:
           # Returned by GET, not used in POST/PUT/PATCH
