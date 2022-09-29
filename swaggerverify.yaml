@@ -1241,8 +1241,19 @@ components:
           title: Assigned User Id  
         additionalInfo:
           type: string
-        occurrence:
-          $ref: '#/components/schemas/OccurrenceModel'
+        interval:
+          type: integer
+          format: int64
+          example: 100000
+        type:
+          type: string
+        day:
+          type: integer
+          example: 3
+        isThereEndDate:
+          type: boolean
+        endType:
+          type: string
         createdDate:
           allOf:
             - $ref: '#/components/schemas/DateTime'
@@ -1264,24 +1275,6 @@ components:
             - title: User Id that last modified the entry. Default to current use if not supplied
           readOnly: true
        
-    OccurrenceModel:
-      title: Occurrence Entry
-      type: object
-      properties:
-        interval:
-          type: integer
-          format: int64
-          example: 100000
-        type:
-          type: string
-        day:
-          type: integer
-          example: 3
-        isThereEndDate:
-          type: boolean
-        endType:
-          type: string
-   
   responses:
     ErrorResponse:
       description: The specified resource was not found
