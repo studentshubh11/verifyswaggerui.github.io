@@ -822,7 +822,6 @@ components:
       type: object
       required:
         - name
-        - orgId
         - siteId
         - verificationTypeId
       properties:
@@ -832,9 +831,6 @@ components:
             - $ref: '#/components/schemas/Guid'
           title: Checkpoint Id
           readOnly: true
-        orgId:
-          title: Organisation Id
-          type: integer
         siteId:
           allOf:
             - $ref: '#/components/schemas/Guid'
@@ -893,7 +889,6 @@ components:
       title: CheckIn Payload
       type: object
       required:
-        - orgId
         - siteId
         - routeId
         - patrolId
@@ -910,9 +905,6 @@ components:
             - $ref: '#/components/schemas/Guid'
           title: Checkpoint Id
           readOnly: true
-        orgId:
-          title: Organisation Id
-          type: integer
         siteId:
           allOf:
             - $ref: '#/components/schemas/Guid'
