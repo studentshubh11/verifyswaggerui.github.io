@@ -241,10 +241,10 @@ paths:
       summary: Add a new route
       description: Add a new route
       requestBody:
-        $ref: '#/components/requestBodies/RoutePostPutRequest'
+        $ref: '#/components/requestBodies/RouteCheckpointRequest'
       responses:
         201:
-          $ref: '#/components/responses/RoutePostPutResponse'
+          $ref: '#/components/responses/RouteCheckpointResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -263,10 +263,10 @@ paths:
       summary: Update an existing route
       description: Update an existing route
       requestBody:
-        $ref: '#/components/requestBodies/RoutePostPutRequest'
+        $ref: '#/components/requestBodies/RouteCheckpointRequest'
       responses:
         200:
-          $ref: '#/components/responses/RoutePostPutResponse'
+          $ref: '#/components/responses/RouteCheckpointResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -984,7 +984,7 @@ components:
           $ref: '#/components/schemas/RouteEntryData'
           
     RouteCheckpoint:
-      title: Route Checkpoints Entries Definition(GetRouteById)
+      title: Route Checkpoints Entries Definition
       type: object
       properties:
         struct:
@@ -992,14 +992,6 @@ components:
         data:
           $ref: '#/components/schemas/RouteCheckpointEntryData'
           
-    RoutePostPut:
-      title: Route Checkpoint Ids Definition(Post and Put)
-      type: object
-      properties:
-        struct:
-          $ref: '#/components/schemas/RouteEntryStruct'
-        data:
-          $ref: '#/components/schemas/RoutePostPutData'
        
     RouteEntryStruct:
       title: Struct Definition for Route
@@ -1033,22 +1025,8 @@ components:
           title: Route 
         checkpoints:
           items:
-              $ref: '#/components/schemas/CheckpointEntryData'
+              $ref: '#/components/schemas/RouteCheckpointData'
               
-    RoutePostPutData:
-      title: Route Entry along with Checkpoint Ids
-      type: object 
-      required:
-        - name
-        - orgId
-      properties:
-        route:
-          allOf:
-            - $ref: '#/components/schemas/RouteEntryData'
-          title: Route 
-        checkpoints:
-          items:
-            $ref: '#/components/schemas/RouteCheckpointData'
     
     RouteCheckpointData:
       title: Route Entry along with set of Checkpoint
@@ -1328,12 +1306,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Route'
-    RoutePostPutResponse:
-      description: Route entry response(Post and Put)
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RoutePostPut'
+   
     RouteCheckpointResponse:
       description: Route along with checkpoint entries response
       content:
@@ -1366,12 +1339,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CheckIn'
-    RoutePostPutRequest:
+    RouteCheckpointRequest:
       description: Route entry request
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RoutePostPut'
+            $ref: '#/components/schemas/RouteCheckpoint'
     PatrolRequest:
       description: Patrol entry request
       content:
