@@ -303,7 +303,7 @@ paths:
       description:  Enable/Disable a route
       responses:
         200:
-          $ref: '#/components/responses/RouteResponse'
+          $ref: '#/components/responses/RouteCheckpointResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
