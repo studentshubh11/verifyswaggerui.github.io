@@ -58,7 +58,7 @@ paths:
         $ref: '#/components/requestBodies/CheckpointRequest'
       responses:
         201:
-          $ref: '#/components/responses/CheckpointResponse'
+          $ref: '#/components/responses/CheckpointGuidResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -100,7 +100,7 @@ paths:
         $ref: '#/components/requestBodies/CheckpointRequest'
       responses:
         200:
-          $ref: '#/components/responses/CheckpointResponse'
+          $ref: '#/components/responses/CheckpointBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -137,7 +137,7 @@ paths:
       description:  Enable/Disable a checkpoint
       responses:
         200:
-          $ref: '#/components/responses/CheckpointResponse'
+          $ref: '#/components/responses/CheckpointBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -244,7 +244,7 @@ paths:
         $ref: '#/components/requestBodies/RouteCheckpointRequest'
       responses:
         201:
-          $ref: '#/components/responses/RouteCheckpointResponse'
+          $ref: '#/components/responses/RouteGuidResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -266,7 +266,7 @@ paths:
         $ref: '#/components/requestBodies/RouteCheckpointRequest'
       responses:
         200:
-          $ref: '#/components/responses/RouteCheckpointResponse'
+          $ref: '#/components/responses/RouteBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -303,7 +303,7 @@ paths:
       description:  Enable/Disable a route
       responses:
         200:
-          $ref: '#/components/responses/RouteCheckpointResponse'
+          $ref: '#/components/responses/RouteBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -365,7 +365,7 @@ paths:
         $ref: '#/components/requestBodies/PatrolRequest'
       responses:
         201:
-          $ref: '#/components/responses/PatrolResponse'
+          $ref: '#/components/responses/PatrolGuidResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -387,7 +387,7 @@ paths:
         $ref: '#/components/requestBodies/PatrolRequest'
       responses:
         200:
-          $ref: '#/components/responses/PatrolResponse'
+          $ref: '#/components/responses/PatrolBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -466,7 +466,7 @@ paths:
       - $ref: '#/components/parameters/PatrolId'
       responses:
         200:
-          $ref: '#/components/responses/BooleanResponse'
+          $ref: '#/components/responses/PatrolBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -486,7 +486,7 @@ paths:
       - $ref: '#/components/parameters/PatrolId'
       responses:
         200:
-          $ref: '#/components/responses/BooleanResponse'
+          $ref: '#/components/responses/PatrolBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -506,7 +506,7 @@ paths:
       - $ref: '#/components/parameters/PatrolId'
       responses:
         200:
-          $ref: '#/components/responses/BooleanResponse'
+          $ref: '#/components/responses/PatrolBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -528,7 +528,7 @@ paths:
       - $ref: '#/components/parameters/RiskAssessmentId'
       responses:
         200:
-          $ref: '#/components/responses/PatrolResponse'
+          $ref: '#/components/responses/PatrolBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -644,6 +644,13 @@ components:
       description: A Guid identifier
       type: string
       pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+    GuidObject:
+      title: A GUID Identifier
+      description: A Guid identifier
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Guid'
     DateTime:
       title: A Date & Time
       description: Datetime range (UTC), formatted as "YYYY-MM-DDTHH:MM:SS" (e.g. "1969-07-21T02:56:15")
@@ -692,7 +699,23 @@ components:
           type: string
           
     
-    # Checkpoint Data      
+    # Checkpoint Data     
+    CheckpointGuid:
+      title: Checkpoint Guid Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/CheckpointEntryStruct'
+        data:
+          $ref: '#/components/schemas/GuidObject'
+    CheckpointBoolean:
+      title: Checkpoint Boolean Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/CheckpointEntryStruct'
+        data:
+          $ref: '#/components/schemas/BooleanStatus'
     VerificationTypeEntryData:
       title: Verification Type Entry
       type: object
@@ -965,6 +988,23 @@ components:
              
     
     # Route Data
+    RouteGuid:
+      title: Route Guid Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/RouteEntryStruct'
+        data:
+          $ref: '#/components/schemas/GuidObject'
+          
+    RouteBoolean:
+      title: Route Boolean Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/RouteEntryStruct'
+        data:
+          $ref: '#/components/schemas/BooleanStatus'      
     RouteList:
       title: Set of Route Definition
       type: object
@@ -1101,7 +1141,24 @@ components:
             - title: User Id that last modified the entry. Default to current use if not supplied
           readOnly: true
       
-    # Patrol Data      
+    # Patrol Data  
+    PatrolGuid:
+      title: Patrol Guid Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          $ref: '#/components/schemas/GuidObject'
+     
+    PatrolBoolean:
+      title: Patrol Boolean Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          $ref: '#/components/schemas/BooleanStatus'
     PatrolList:
       title: Set of Patrol Definition
       type: object
@@ -1249,6 +1306,42 @@ components:
           readOnly: true
        
   responses:
+    CheckpointGuidResponse:
+      description: Return checkpoint id
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckpointGuid'
+    CheckpointBooleanResponse:
+      description: Return boolean
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckpointBoolean'  
+    RouteGuidResponse:
+      description: Return route id
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RouteGuid'
+    RouteBooleanResponse:
+      description: Return boolean
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RouteBoolean'        
+    PatrolGuidResponse:
+      description: Return patrol id
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatrolGuid' 
+    PatrolBooleanResponse:
+      description: Return boolean
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatrolBoolean' 
     ErrorResponse:
       description: The specified resource was not found
       content:
