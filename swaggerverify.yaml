@@ -1054,10 +1054,7 @@ components:
     
     RouteCheckpointEntryData:
       title: Route Entry along with Checkpoints Entries
-      type: object 
-      required:
-        - name
-        - orgId
+      type: object
       properties:
         route:
           allOf:
@@ -1102,6 +1099,7 @@ components:
         orgId:
           title: Organisation Id
           type: integer
+          readOnly: true
         name:
           type: string
           format: string
@@ -1200,7 +1198,6 @@ components:
       type: object
       required:
         - name
-        - orgId
         - routeId
       properties:
         id:
@@ -1211,7 +1208,8 @@ components:
           readOnly: true
         orgId:
           title: Organisation Id
-          type: integer   
+          type: integer 
+          readOnly: true  
         routeId:
           allOf:
             - $ref: '#/components/schemas/Guid'
@@ -1425,22 +1423,22 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Checkpoint'
+            $ref: '#/components/schemas/CheckpointEntryData'
     CheckinRequest:
       description: CheckIn  request Payload
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CheckIn'
+            $ref: '#/components/schemas/CheckInData'
     RouteCheckpointRequest:
       description: Route entry request
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RouteCheckpoint'
+            $ref: '#/components/schemas/RouteCheckpointEntryData'
     PatrolRequest:
       description: Patrol entry request
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Patrol'
+            $ref: '#/components/schemas/PatrolEntryData'
