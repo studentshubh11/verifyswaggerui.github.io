@@ -354,7 +354,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
             
        
-  /schedule-patrols:
+  /patrols:
     
     post:
       tags:
@@ -375,7 +375,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
     
-  /schedule-patrols/{patrolId}:
+  /patrols/{patrolId}:
     parameters:
       - $ref: '#/components/parameters/PatrolId'
     put:
@@ -413,7 +413,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /schedule-patrols/user/{userId}:
+  /patrols/user/{userId}:
     get:
       tags:
         - Patrol Service
@@ -435,7 +435,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
   
-  /schedule-patrols/route/{routeId}:
+  /patrols/route/{routeId}:
     get:
       tags:
         - Patrol Service
@@ -454,16 +454,38 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
+          
+  
+  /patrols/event/{eventId}:
+    get:
+      tags:
+        - Patrol Service
+      summary: Retrieve patrol entries related to event
+      description: Retrieve patrol entries related to event
+      parameters:
+      - $ref: '#/components/parameters/EventId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
 
           
-  /schedule-patrols/{patrolId}/start:
-    put:
+  /patrols/{patrolId}/start/{eventId}:
+    patch:
       tags:
         - Patrol Service
-      summary: Start patrol
-      description: Start patrol
+      summary: Start patrol event
+      description: Start patrol event
       parameters:
       - $ref: '#/components/parameters/PatrolId'
+      - $ref: '#/components/parameters/EventId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -476,14 +498,36 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /schedule-patrols/{patrolId}/abandon:
-    put:
+  /patrols/{patrolId}/abandon/{eventId}:
+    patch:
       tags:
         - Patrol Service
-      summary: Abandon patrol
-      description: Abandon patrol
+      summary: Abandon patrol event
+      description: Abandon patrol event
       parameters:
       - $ref: '#/components/parameters/PatrolId'
+      - $ref: '#/components/parameters/EventId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolBooleanResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+  
+  /patrols/{patrolId}/{eventId}/complete:
+    patch:
+      tags:
+        - Patrol Service
+      summary: Complete patrol event
+      description: Complete patrol event
+      parameters:
+      - $ref: '#/components/parameters/PatrolId'
+      - $ref: '#/components/parameters/EventId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -496,14 +540,16 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /schedule-patrols/{patrolId}/complete:
-    put:
+  /patrols/{patrolId}/{eventId}/skip/{checkpointId}:
+    patch:
       tags:
         - Patrol Service
-      summary: Complete patrol
-      description: Complete patrol
+      summary: Skip patrol event
+      description: Skip patrol event
       parameters:
       - $ref: '#/components/parameters/PatrolId'
+      - $ref: '#/components/parameters/EventId'
+      - $ref: '#/components/parameters/CheckpointId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -517,8 +563,8 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
   
-  /schedule-patrols/{patrolId}/risk-assessment/{riskAssessmentId}:
-    put:
+  /patrols/{patrolId}/risk-assessment/{riskAssessmentId}:
+    patch:
       tags:
         - Patrol Service
       summary: Update risk assessment id in patrol
@@ -558,6 +604,14 @@ components:
     #   required: false
     #   schema:
     #     type: string
+    EventId:
+      name: eventId
+      in: path
+      description: Event Id
+      required: true
+      schema:
+        type: string
+        
     UserId:
       name: userId
       in: path
@@ -631,6 +685,7 @@ components:
       schema:
         type: string
         format: date-time
+    
     PageToken:
       name: pageToken
       in: query
@@ -645,7 +700,7 @@ components:
       type: string
       pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
     GuidObject:
-      title: A GUID Identifier
+      title: A GUID Identifier Object
       description: A Guid identifier
       type: object
       properties:
@@ -1173,7 +1228,7 @@ components:
         struct:
           $ref: '#/components/schemas/PatrolEntryStruct'
         data:
-          $ref: '#/components/schemas/PatrolEntryData'
+          $ref: '#/components/schemas/PatrolData'
  
     PatrolEntryStruct:
       title: Struct definition for Patrol
@@ -1185,13 +1240,81 @@ components:
           type: string
           pattern: '^V\d$'
       example: '{"c":"Patrol","v":"V1"}'
-      
+    
+    PatrolData:
+      title: Route Entry along with Checkpoints Entries
+      type: object
+      properties:
+        patrol:
+          allOf:
+            - $ref: '#/components/schemas/PatrolEntryData'
+          title: Patrol 
+        events:
+          items:
+              $ref: '#/components/schemas/PatrolEventData'
+        checkpoints:
+          items:
+              $ref: '#/components/schemas/PatrolCheckpointData'
+              
     PatrolEntriesData:
       title: Set of Patrol Entries
       type: array
       items:
         $ref: '#/components/schemas/PatrolEntryData'
       minItems: 0
+      
+           
+    PatrolCheckpointData:
+      title: Checkpoint Data
+      type: object
+      properties:
+        id:
+          # Returned by GET, not used in POST/PUT/PATCH
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Checkpoint Id
+        siteId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Site Id  
+        verificationTypeId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Verification Type Id
+        name:
+          type: string
+          format: string
+          example: 'Checkpiont 1'
+        location:
+          $ref: '#/components/schemas/LocationData'
+        referenceImages:
+          type: array
+          items:
+            type: string
+        ImageMetaData: 
+          type: string
+        plotLocation:
+          type: boolean
+        toleranceInMeter:
+          type: number
+          format: float
+          description: actually tolerance value
+          example: 40
+        status:
+          $ref: '#/components/schemas/CheckpointStatus'
+      
+   
+      
+    PatrolEventData:
+      title: Patrol Event
+      type: object
+      properties:
+        eventId:
+          type: string
+          description: EventId from google scheduler api
+        action:
+          type: string
+          description: Action carried against event
       
     PatrolEntryData:
       title: Patrol Entry
@@ -1214,9 +1337,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Route Id
-        eventId:
-          type: string
-          description: eventId from google scheduler api
         riskAssessmentId:
           allOf:
             - $ref: '#/components/schemas/Guid'
