@@ -34,6 +34,9 @@ externalDocs:
     https://zinc-digital.atlassian.net/wiki/spaces/SPR/pages/2386526212/Patrol+Management+Requirements
 
 tags:
+
+  - name: API Communication
+    description: Exposes endpoints related used for external communication
   - name: Checkpoint Service
     description: Exposes endpoints related to checkpoint service
   - name: Route Service
@@ -47,6 +50,25 @@ security:
 
 paths:
 
+  /routes/checkpoint/{checkpointId}/remove:
+    delete:
+      tags:
+        - API Communication
+      parameters:
+      - $ref: '#/components/parameters/CheckpointId'
+      summary: Remove checkpoint from route API
+      responses:
+        201:
+          $ref: '#/components/responses/RouteBooleanResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+          
 
   /checkpoints:
     post:
@@ -293,7 +315,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     
   /routes/{routeId}/status/{routeStatusType}:        
-    put:
+    patch:
       tags:
         - Route Service
       parameters:
