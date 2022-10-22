@@ -95,9 +95,9 @@ paths:
     get:
       tags:
         - Checkpoint Service
-      summary: Retrieve verification type entries
+      summary: Retrieves verification type entries
       description: 
-        Retrieve the verification type entries which have been created
+        Retrieves the verification type entries which have been created
       responses:
         200:
           $ref: '#/components/responses/VerificationResponse'
@@ -134,8 +134,8 @@ paths:
     get:
       tags:
         - Checkpoint Service
-      summary: Retrieve checkpoint entry
-      description: Retrieve a single checkpoint
+      summary: Retrieves checkpoint entry
+      description: Retrieves a single checkpoint
       responses:
         200:
           $ref: '#/components/responses/CheckpointResponse'
@@ -169,55 +169,14 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /checkpoints/{checkpointId}/checkin:
-    post:
-      tags:
-        - Checkpoint Service
-      summary: Make a Check In While Patroling On A Checkpoint
-      description: This Api makes a checkin entry in the database.
-      parameters:
-        - $ref: '#/components/parameters/CheckpointId'
-      requestBody:
-        $ref: '#/components/requestBodies/CheckinRequest'
-      responses:
-        201:
-          $ref: '#/components/responses/CheckInResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'
-          
-  /checkpoints/checkin/{patrolId}:
-    parameters:
-      - $ref: '#/components/parameters/PatrolId'
-    get:
-      tags:
-        - Checkpoint Service
-      summary: Get Checkins Based On PatrolId
-      description: This Api Fetches The List Of Checkins For A Patrol.
-      responses:
-        200:
-          $ref: '#/components/responses/CheckInListResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'             
-                  
+ 
           
   /checkpoints/site/{siteId}:
     get:
       tags:
         - Checkpoint Service
-      summary: Retrieve checkpoint entries related to site
-      description: Retrieve checkpoint entries related to site
+      summary: Retrieves checkpoint entries related to site
+      description: Retrieves checkpoint entries related to site
       parameters:
       - $ref: '#/components/parameters/SiteId'
       responses:
@@ -236,9 +195,9 @@ paths:
     get:
       tags:
         - Checkpoint Service
-      summary: Retrieve a set of Checkpoint entries range
+      summary: Retrieves a set of Checkpoint entries range
       description: 
-        Retrieve the  set of Checkpoint entries
+        Retrieves the  set of Checkpoint entries
       parameters:
       - $ref: '#/components/parameters/RouteId'
       responses:
@@ -279,7 +238,7 @@ paths:
   /routes/{routeId}:
     parameters:
       - $ref: '#/components/parameters/RouteId'
-    put:
+    patch:
       tags:
         - Route Service
       summary: Update an existing route
@@ -300,8 +259,8 @@ paths:
     get:
       tags:
         - Route Service
-      summary: Retrieve route entry
-      description: Retrieve a single route
+      summary: Retrieves route entry
+      description: Retrieves a single route
       responses:
         200:
           $ref: '#/components/responses/RouteCheckpointResponse'
@@ -339,8 +298,8 @@ paths:
     get:
       tags:
         - Route Service
-      summary: Retrieve route entries related to checkpoint
-      description: Retrieve route entries related to checkpoint
+      summary: Retrieves route entries related to checkpoint
+      description: Retrieves route entries related to checkpoint
       parameters:
       - $ref: '#/components/parameters/CheckpointId'
       responses:
@@ -359,8 +318,8 @@ paths:
     get:
       tags:
         - Route Service
-      summary: Retrieve route entries related to site
-      description: Retrieve route entries related to site
+      summary: Retrieves route entries related to site
+      description: Retrieves route entries related to site
       parameters:
       - $ref: '#/components/parameters/SiteId'
       responses:
@@ -374,11 +333,33 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
+          
+  /routes/{routeId}/checkpoint-details:
+    get:
+      tags:
+        - Route Service
+      summary: Retrieves set of route checkpoints related to route
+      description: Retrieves set of route checkpoints related to route
+      parameters:
+      - $ref: '#/components/parameters/RouteId'
+      responses:
+        200:
+          $ref: '#/components/responses/RouteCheckpointDetailListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+            
             
        
-  /patrols:
-    
+  /patrols/{routeId}:
     post:
+      parameters:
+        - $ref: '#/components/parameters/RouteId'
       tags:
         - Patrol Service
       summary: Add a new patrol schedule
@@ -396,11 +377,36 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
+          
+  /patrols/{patrolId}/checkin/{scheduledEventId}:
+    post:
+      tags:
+        - Patrol Service
+      summary: Make a Check In While Patroling On A Checkpoint
+      description: This Api makes a checkin entry in the database.
+      parameters:
+      - $ref: '#/components/parameters/PatrolId'
+      - $ref: '#/components/parameters/ScheduledEventId'
+      requestBody:
+        $ref: '#/components/requestBodies/PatrolCheckinRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/PatrolBooleanResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse' 
+          
+       
     
   /patrols/{patrolId}:
     parameters:
       - $ref: '#/components/parameters/PatrolId'
-    put:
+    patch:
       tags:
         - Patrol Service
       summary: Update an existing patrol
@@ -421,8 +427,8 @@ paths:
     get:
       tags:
         - Patrol Service
-      summary: Retrieve patrol entry
-      description: Retrieve a single patrol
+      summary: Retrieves patrol entry
+      description: Retrieves a single patrol
       responses:
         200:
           $ref: '#/components/responses/PatrolResponse'
@@ -439,9 +445,9 @@ paths:
     get:
       tags:
         - Patrol Service
-      summary:  Retrieve Assigned Patrols
+      summary:  Retrieves Assigned Patrols
       description: 
-        Retrieve the Assinged Patrol entries
+        Retrieves the Assinged Patrol entries
       parameters:
       - $ref: '#/components/parameters/UserId'
       responses:
@@ -461,8 +467,8 @@ paths:
     get:
       tags:
         - Patrol Service
-      summary: Retrieve patrol entries related to route
-      description: Retrieve patrol entries related to route
+      summary: Retrieves patrol entries related to route
+      description: Retrieves patrol entries related to route
       parameters:
       - $ref: '#/components/parameters/RouteId'
       responses:
@@ -482,13 +488,13 @@ paths:
     get:
       tags:
         - Patrol Service
-      summary: Retrieve patrol entries related to event
-      description: Retrieve patrol entries related to event
+      summary: Retrieves set of patrol events related to event
+      description: Retrieves patrol entries related to event
       parameters:
       - $ref: '#/components/parameters/EventId'
       responses:
         200:
-          $ref: '#/components/responses/PatrolResponse'
+          $ref: '#/components/responses/PatrolEventListResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -498,8 +504,29 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
 
-          
-  /patrols/{patrolId}/start/{eventId}:
+  
+  /patrols/{scheduledEventId}/checkin:
+    parameters:
+      - $ref: '#/components/parameters/ScheduledEventId'
+    get:
+      tags:
+        - Patrol Service
+      summary: Get Checkins Based On PatrolId
+      description: This Api Fetches The List Of Checkins For A Patrol.
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolCheckInListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'             
+                  
+                  
+  /patrols/{patrolId}/start/{scheduledEventId}:
     patch:
       tags:
         - Patrol Service
@@ -507,7 +534,7 @@ paths:
       description: Start patrol event
       parameters:
       - $ref: '#/components/parameters/PatrolId'
-      - $ref: '#/components/parameters/EventId'
+      - $ref: '#/components/parameters/ScheduledEventId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -520,7 +547,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /patrols/{patrolId}/abandon/{eventId}:
+  /patrols/{patrolId}/abandon/{scheduledEventId}:
     patch:
       tags:
         - Patrol Service
@@ -528,7 +555,7 @@ paths:
       description: Abandon patrol event
       parameters:
       - $ref: '#/components/parameters/PatrolId'
-      - $ref: '#/components/parameters/EventId'
+      - $ref: '#/components/parameters/ScheduledEventId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -541,7 +568,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
   
-  /patrols/{patrolId}/complete/{eventId}:
+  /patrols/{patrolId}/complete/{scheduledEventId}:
     patch:
       tags:
         - Patrol Service
@@ -549,7 +576,7 @@ paths:
       description: Complete patrol event
       parameters:
       - $ref: '#/components/parameters/PatrolId'
-      - $ref: '#/components/parameters/EventId'
+      - $ref: '#/components/parameters/ScheduledEventId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -562,28 +589,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /patrols/{patrolId}/{eventId}/skip/{checkpointId}:
-    patch:
-      tags:
-        - Patrol Service
-      summary: Skip patrol event
-      description: Skip patrol event
-      parameters:
-      - $ref: '#/components/parameters/PatrolId'
-      - $ref: '#/components/parameters/EventId'
-      - $ref: '#/components/parameters/CheckpointId'
-      responses:
-        200:
-          $ref: '#/components/responses/PatrolBooleanResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'
-          
+   
   
   /patrols/{patrolId}/risk-assessment/{riskAssessmentId}:
     patch:
@@ -630,6 +636,13 @@ components:
       name: eventId
       in: path
       description: Event Id
+      required: true
+      schema:
+        type: string
+    ScheduledEventId:
+      name: scheduledEventId
+      in: path
+      description: Scheduled Event Id (Sub Event)
       required: true
       schema:
         type: string
@@ -711,7 +724,7 @@ components:
     PageToken:
       name: pageToken
       in: query
-      description: Token used to retrieve additional matches
+      description: Token used to Retrieves additional matches
       required: false
       schema:
         type: string
@@ -824,45 +837,7 @@ components:
           $ref: '#/components/schemas/CheckpointEntryStruct'
         data:
           $ref: '#/components/schemas/CheckpointEntryData'
-          
-    CheckInEntryStruct:
-      title: Struct Definition for CheckIn
-      type: object
-      properties:
-        c:
-          type: string
-        v:
-          type: string
-          pattern: '^V\d$'
-      example: '{"c":"CheckIn","v":"V1"}'  
-
-    CheckInList:
-      title: Set of Checkin Definition
-      type: object
-      properties:
-        struct:
-          $ref: '#/components/schemas/CheckInEntryStruct'
-        data:
-          $ref: '#/components/schemas/CheckInEntriesData'    
-
-    CheckInEntriesData:
-      title: Set of Checkin Entries
-      type: array
-      items:
-        $ref: '#/components/schemas/CheckInData'
-      minItems: 0
-
-    CheckIn:
-      title: CheckIn Definition
-      type: object
-      properties:
-        struct:
-          $ref: '#/components/schemas/CheckInEntryStruct'
-        data:
-          $ref: '#/components/schemas/CheckInData'    
-          
-    
-    
+   
     Verification:
       title: Verification Definition
       type: object
@@ -985,84 +960,7 @@ components:
             - title: User Id that last modified the entry. Default to current use if not supplied
           readOnly: true
    
-    CheckInData:
-      title: CheckIn Payload
-      type: object
-      required:
-        - siteId
-        - routeId
-        - patrolId
-        - checkpointId
-        - patrolUserId
-        - locationData
-        - isSkipped
-        - checkInTime
-       
-      properties:
-        id:
-          # Returned by GET, not used in POST/PUT/PATCH
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Checkpoint Id
-          readOnly: true
-        siteId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Site Id  
-        routeId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Route Id
-        checkInTime:
-          title: Checkin time (unix epoch timestamp)
-          type: integer
-        patrolId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Patrol Id  
-        checkpointId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: CheckPoint Id 
-        patrolUserId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: User Id Of the Patroling Person     
-        location:
-          $ref: '#/components/schemas/LocationData'
-        
-        description:
-          type: string
-
-        isSkipped:
-          type: boolean
-          default: false
-        checkinTime:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-            - title: Create date of entry. Default to now() if not supplied
-         
-        createdDate:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-            - title: Create date of entry. Default to now() if not supplied
-          readOnly: true
-        modifiedDate:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-            - title: Last modify date of entry. Default to now() if not supplied
-          readOnly: true
-        createdBy:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-            - title: User Id creating record. Default to current use if not supplied
-          readOnly: true
-        modifiedBy:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-            - title: User Id that last modified the record. Default to current use if not supplied
-          readOnly: true      
-             
+    
     
     # Route Data
     RouteGuid:
@@ -1108,7 +1006,16 @@ components:
           $ref: '#/components/schemas/RouteEntryStruct'
         data:
           $ref: '#/components/schemas/RouteCheckpointEntryData'
-          
+   
+    RouteCheckpointDetailList:
+      title: Checkpoints Entries Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/RouteEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/RouteCheckpointDatailData'
        
     RouteEntryStruct:
       title: Struct Definition for Route
@@ -1141,6 +1048,15 @@ components:
           items:
               $ref: '#/components/schemas/RouteCheckpointData'
               
+    RouteCheckpointDatailData:
+      allOf:
+        - $ref: '#/components/schemas/CheckpointEntryData'
+        - type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
     
     RouteCheckpointData:
       title: Route Entry along with set of Checkpoint
@@ -1241,7 +1157,8 @@ components:
         struct:
           $ref: '#/components/schemas/PatrolEntryStruct'
         data:
-          $ref: '#/components/schemas/PatrolEntriesData'
+          items:
+            $ref: '#/components/schemas/PatrolEntryData'
           
     Patrol:
       title: Patrol Definition
@@ -1250,8 +1167,28 @@ components:
         struct:
           $ref: '#/components/schemas/PatrolEntryStruct'
         data:
-          $ref: '#/components/schemas/PatrolData'
- 
+          $ref: '#/components/schemas/PatrolEntryData'
+          
+    PatrolEventList:
+      title: Patrol Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/PatrolEventData'
+            
+    PatrolCheckInList:
+      title: Set of Checkin Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/PatrolCheckInData' 
+            
     PatrolEntryStruct:
       title: Struct definition for Patrol
       type: object
@@ -1263,87 +1200,132 @@ components:
           pattern: '^V\d$'
       example: '{"c":"Patrol","v":"V1"}'
     
-    PatrolData:
-      title: Route Entry along with Checkpoints Entries
+    CheckInTaskData:
+      title: Checkin Task Entry
       type: object
+      required:
+        - name
+        - orgId
       properties:
-        patrol:
-          allOf:
-            - $ref: '#/components/schemas/PatrolEntryData'
-          title: Patrol 
-        events:
-          items:
-              $ref: '#/components/schemas/PatrolEventData'
-        checkpoints:
-          items:
-              $ref: '#/components/schemas/PatrolCheckpointData'
-              
-    PatrolEntriesData:
-      title: Set of Patrol Entries
-      type: array
-      items:
-        $ref: '#/components/schemas/PatrolEntryData'
-      minItems: 0
-      
-           
-    PatrolCheckpointData:
-      title: Checkpoint Data
+        task:
+          type: string
+        isCarriedOut:
+          type: boolean
+        description:
+          type: string
+    PatrolEventData:
+      title: Patrol Event
       type: object
+      
+      properties:
+        patrolId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Patrol Id
+        eventId:
+          type: string
+          description: EventId from google scheduler api(iCalUId)
+        scheduledEventId:
+          type: string
+          description: Scheduled EventId from google scheduler api (id)
+        assignedId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          description: Patrol User Id
+        displayName:
+          type: string
+          description: Patrol User Name
+        email:
+          type: string
+          description: Patrol User Email
+        eventName:
+          type: string
+          description: Event Name
+        eventDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+        startTime:
+          type: integer
+        endTime:
+          type: integer
+      
+    PatrolCheckInData:
+      title: CheckIn Payload
+      type: object
+      required:
+        - siteId
+        - routeId
+        - patrolId
+        - checkpointId
+        - scheduledEventId
+        - eventId
+       
       properties:
         id:
           # Returned by GET, not used in POST/PUT/PATCH
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Checkpoint Id
-        siteId:
+          readOnly: true
+        patrolId:
           allOf:
             - $ref: '#/components/schemas/Guid'
-          title: Site Id  
-        verificationTypeId:
+          title: Patrol Id  
+          readOnly: true
+        routeId:
           allOf:
             - $ref: '#/components/schemas/Guid'
-          title: Verification Type Id
-        name:
+          title: Route Id
+        scheduledEventId:
           type: string
-          format: string
-          example: 'Checkpiont 1'
-        location:
-          $ref: '#/components/schemas/LocationData'
-        referenceImages:
-          type: array
-          items:
-            type: string
-        ImageMetaData: 
-          type: string
-        plotLocation:
-          type: boolean
-        toleranceInMeter:
-          type: number
-          format: float
-          description: actually tolerance value
-          example: 40
-        status:
-          $ref: '#/components/schemas/CheckpointStatus'
-      
-   
-      
-    PatrolEventData:
-      title: Patrol Event
-      type: object
-      properties:
+          readOnly: true
         eventId:
           type: string
-          description: EventId from google scheduler api
-        action:
+        checkpointId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: CheckPoint Id 
+        siteId:
+          type: integer
+          title: Site Id  
+        checkInTime:
+          title: Checkin time (unix epoch timestamp)
+          type: integer
+          readOnly: true
+        carriedTasks:
+          $ref: '#/components/schemas/CheckInTaskData'
+        description:
           type: string
-          description: Action carried against event
-      
+        isSkipped:
+          type: boolean
+          default: false
+        createdDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Create date of entry. Default to now() if not supplied
+          readOnly: true
+        modifiedDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Last modify date of entry. Default to now() if not supplied
+          readOnly: true
+        createdBy:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+            - title: User Id creating record. Default to current use if not supplied
+          readOnly: true
+        modifiedBy:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+            - title: User Id that last modified the record. Default to current use if not supplied
+          readOnly: true      
+                   
+  
     PatrolEntryData:
       title: Patrol Entry
       type: object
       required:
         - name
-        - routeId
       properties:
         id:
           # Returned by GET, not used in POST/PUT/PATCH
@@ -1351,6 +1333,10 @@ components:
             - $ref: '#/components/schemas/Guid'
           title: Patrol Id
           readOnly: true
+        name:
+          type: string
+          format: string
+          example: 'Patrol 1'
         orgId:
           title: Organisation Id
           type: integer 
@@ -1359,49 +1345,26 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Route Id
-        riskAssessmentId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Risk Assessment Id  
-        name:
+          readOnly: true
+        eventId:
           type: string
-          format: string
-          example: 'Patrol 1'
+          title: Event Id  
+        riskAssessmentId:
+          type: string
+          title: Risk Assessment Id  
         isScheduled:
           type: boolean
           example: true
+          readOnly: true
         scheduleDate:
          allOf:
             - $ref: '#/components/schemas/DateTime'
          title: Schedule Date
-        startTime:
-          type: integer
-          format: int64
-          readOnly: true
-          description: time in seconds
-          example: 3456355
-        abandonTime:
-          type: integer
-          format: int64
-          readOnly: true
-          description: time in seconds
-          example: 3456355
-        completionTime:
-          type: integer
-          format: int64
-          readOnly: true
-          description: time in seconds
-          example: 3456355
-        status:
-          type: string
-          description: Patrol Status
-          readOnly: true
-          example: 'READY'
-          enum:
-            - READY
-            - STARTED
-            - ABANDONED
-            - COMPLETED
+        scheduleEndDate:
+         allOf:
+            - $ref: '#/components/schemas/DateTime'
+         title: Schedule End Date
+       
         isRepeated:
           type: boolean
           example: false
@@ -1415,15 +1378,15 @@ components:
           type: integer
           format: int64
           example: 100000
-        type:
+        resources:
+          type: array
+          items:
+            type: string
+              
+          
+        createdByName:
           type: string
-        day:
-          type: integer
-          example: 3
-        isThereEndDate:
-          type: boolean
-        endType:
-          type: string
+          readOnly: true
         createdDate:
           allOf:
             - $ref: '#/components/schemas/DateTime'
@@ -1444,7 +1407,7 @@ components:
             - $ref: '#/components/schemas/Guid'
             - title: User Id that last modified the entry. Default to current use if not supplied
           readOnly: true
-       
+   
   responses:
     CheckpointGuidResponse:
       description: Return checkpoint id
@@ -1513,26 +1476,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Checkpoint'
-            
-    CheckInResponse:
-      description: CheckIn entry response
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CheckIn'    
-    CheckInListResponse:
-      description: CheckIn entry response
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CheckInList' 
-            
+               
+    
     RouteListResponse:
       description: Set of route entries response
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RouteList'
+            $ref: '#/components/schemas/RouteList' 
+            
+    RouteCheckpointDetailListResponse:
+      description: Set of route entries response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RouteCheckpointDetailList'
+            
     RouteResponse:
       description: Route entry response
       content:
@@ -1552,6 +1511,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PatrolList'
+    PatrolEventListResponse:
+      description: Set of patrol event entries response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatrolEventList'
+    PatrolCheckInListResponse:
+      description: CheckIn entry response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatrolCheckInList' 
     PatrolResponse:
       description: Patrol entry response
       content:
@@ -1566,12 +1537,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CheckpointEntryData'
-    CheckinRequest:
+    
+    
+    PatrolCheckinRequest:
       description: CheckIn  request Payload
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CheckInData'
+            $ref: '#/components/schemas/PatrolCheckInData'        
     RouteCheckpointRequest:
       description: Route entry request
       content:
