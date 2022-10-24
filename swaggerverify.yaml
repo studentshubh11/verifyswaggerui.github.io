@@ -377,8 +377,31 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
+  
+  
+  /patrols/{scheduleEventId}/risk-assessment:
+    post:
+      tags:
+        - Patrol Service
+      summary: Create risk assessment in patrol schedule event
+      description:  Create risk assessment in patrol schedule event
+      parameters:
+      - $ref: '#/components/parameters/ScheduleEventId'
+      requestBody:
+        $ref: '#/components/requestBodies/PatrolRiskAssessmentRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolBooleanResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
           
-  /patrols/{patrolId}/checkin/{scheduledEventId}:
+  /patrols/{patrolId}/checkin/{scheduleEventId}:
     post:
       tags:
         - Patrol Service
@@ -386,7 +409,7 @@ paths:
       description: This Api makes a checkin entry in the database.
       parameters:
       - $ref: '#/components/parameters/PatrolId'
-      - $ref: '#/components/parameters/ScheduledEventId'
+      - $ref: '#/components/parameters/ScheduleEventId'
       requestBody:
         $ref: '#/components/requestBodies/PatrolCheckinRequest'
       responses:
@@ -402,16 +425,16 @@ paths:
           $ref: '#/components/responses/ErrorResponse' 
           
                
-  /patrols/{scheduledEventId}/start:
+  /patrols/{scheduleEventId}/start:
     put:
       tags:
         - Patrol Service
       summary: Start patrol event
       description: Start patrol event
       parameters:
-      - $ref: '#/components/parameters/ScheduledEventId'
+      - $ref: '#/components/parameters/ScheduleEventId'
       requestBody:
-        $ref: '#/components/requestBodies/PatrolActionRequest'
+        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -424,16 +447,16 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /patrols/{scheduledEventId}/abandon:
+  /patrols/{scheduleEventId}/abandon:
     put:
       tags:
         - Patrol Service
       summary: Abandon patrol event
       description: Abandon patrol event
       parameters:
-      - $ref: '#/components/parameters/ScheduledEventId'
+      - $ref: '#/components/parameters/ScheduleEventId'
       requestBody:
-        $ref: '#/components/requestBodies/PatrolActionRequest'
+        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -446,16 +469,16 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
   
-  /patrols/{scheduledEventId}/complete:
+  /patrols/{scheduleEventId}/complete:
     put:
       tags:
         - Patrol Service
       summary: Complete patrol event
       description: Complete patrol event
       parameters:
-      - $ref: '#/components/parameters/ScheduledEventId'
+      - $ref: '#/components/parameters/ScheduleEventId'
       requestBody:
-        $ref: '#/components/requestBodies/PatrolActionRequest'
+        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -469,29 +492,6 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
    
-  
-  /patrols/{patrolId}/risk-assessment/{riskAssessmentId}:
-    patch:
-      tags:
-        - Patrol Service
-      summary: Update risk assessment id in patrol
-      description:  Update risk assessment id in patrol
-      parameters:
-      - $ref: '#/components/parameters/PatrolId'
-      - $ref: '#/components/parameters/RiskAssessmentId'
-      responses:
-        200:
-          $ref: '#/components/responses/PatrolBooleanResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'
-     
-    
   /patrols/{patrolId}:
     parameters:
       - $ref: '#/components/parameters/PatrolId'
@@ -593,12 +593,12 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
   
-  /patrols/calendar-scheduled-events/event/{eventId}:
+  /patrols/calendar-schedule-events/event/{eventId}:
     get:
       tags:
         - Patrol Service
-      summary: Retrieves set of calendar scheduled events related to event
-      description: Retrieves calendar scheduled events related to event
+      summary: Retrieves set of calendar schedule events related to event
+      description: Retrieves calendar schedule events related to event
       parameters:
       - $ref: '#/components/parameters/EventId'
       responses:
@@ -614,12 +614,12 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
 
-  /patrols/calendar-scheduled-events/site/{siteId}:
+  /patrols/calendar-schedule-events/site/{siteId}:
     get:
       tags:
         - Patrol Service
-      summary: Retrieves set of calendar scheduled events related to site
-      description: Retrieves calendar scheduled events related to site
+      summary: Retrieves set of calendar schedule events related to site
+      description: Retrieves calendar schedule events related to site
       parameters:
       - $ref: '#/components/parameters/SiteId'
       responses:
@@ -635,14 +635,14 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
   
-  /patrols/{scheduledEventId}/checkin:
+  /patrols/{scheduleEventId}/checkin:
     parameters:
-      - $ref: '#/components/parameters/ScheduledEventId'
+      - $ref: '#/components/parameters/ScheduleEventId'
     get:
       tags:
         - Patrol Service
-      summary: Get Checkins Based On ScheduledEventId
-      description: This Api Fetches The Set Of Checkins For A ScheduledEventId.
+      summary: Get Checkins Based On ScheduleEventId
+      description: This Api Fetches The Set Of Checkins For A ScheduleEventId.
       responses:
         200:
           $ref: '#/components/responses/PatrolCheckInListResponse'
@@ -683,8 +683,8 @@ components:
       required: true
       schema:
         type: string
-    ScheduledEventId:
-      name: scheduledEventId
+    ScheduleEventId:
+      name: scheduleEventId
       in: path
       description: Scheduled Event Id (Sub Event)
       required: true
@@ -1261,6 +1261,37 @@ components:
         description:
           type: string
           
+    ScheduleEventData:
+      type: object
+      required:
+        - patrolId
+        - eventId
+      properties:
+        patrolId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Patrol Id
+        routeId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Route Id
+        eventId:
+          type: string
+         
+        
+    RiskAssessmentData:
+      allOf:
+        - $ref: '#/components/schemas/ScheduleEventData'
+        - type: object
+          properties:
+            riskAssessmentId:
+              type: string
+              title: Risk Assessment Id  
+            resources:
+              type: array
+              items:
+                type: string
+                
     PatrolEventData:
       title: Patrol Event
       type: object
@@ -1273,7 +1304,7 @@ components:
         eventId:
           type: string
           description: EventId from google scheduler api(iCalUId)
-        scheduledEventId:
+        scheduleEventId:
           type: string
           description: Scheduled EventId from google scheduler api (id)
         assignedId:
@@ -1305,7 +1336,7 @@ components:
         - routeId
         - patrolId
         - checkpointId
-        - scheduledEventId
+        - scheduleEventId
         - eventId
        
       properties:
@@ -1324,7 +1355,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Route Id
-        scheduledEventId:
+        scheduleEventId:
           type: string
           readOnly: true
         eventId:
@@ -1401,10 +1432,7 @@ components:
           readOnly: true
         eventId:
           type: string
-          title: Event Id  
-        riskAssessmentId:
-          type: string
-          title: Risk Assessment Id  
+          title: Event Id 
         isScheduled:
           type: boolean
           example: true
@@ -1429,10 +1457,6 @@ components:
           type: integer
           format: int64
           example: 100000
-        resources:
-          type: array
-          items:
-            type: string
         additionalInfo:
           type: string
               
@@ -1591,35 +1615,36 @@ components:
           schema:
             $ref: '#/components/schemas/CheckpointEntryData'
     
-    PatrolActionRequest:
+    PatrolScheduleEventRequest:
+      description: Schedule Action Payload
       content:
         application/json:
           schema:
-            title: Patrol Entry
-            type: object
-            required:
-              - patrolId
-              - eventId
-            properties:
-              patrolId:
-                allOf:
-                  - $ref: '#/components/schemas/Guid'
-                title: Patrol Id
-              eventId:
-                type: string
+            $ref: '#/components/schemas/RiskAssessmentData' 
+            
+    PatrolRiskAssessmentRequest:
+      description: Risk Assessment Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RiskAssessmentData' 
+            
+    
     
     PatrolCheckinRequest:
       description: CheckIn  request Payload
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PatrolCheckInData'        
+            $ref: '#/components/schemas/PatrolCheckInData'  
+            
     RouteCheckpointRequest:
       description: Route entry request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/RouteCheckpointEntryData'
+            
     PatrolRequest:
       description: Patrol entry request
       content:
