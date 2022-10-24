@@ -1620,7 +1620,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RiskAssessmentData' 
+            $ref: '#/components/schemas/ScheduleEventData' 
             
     PatrolRiskAssessmentRequest:
       description: Risk Assessment Payload
