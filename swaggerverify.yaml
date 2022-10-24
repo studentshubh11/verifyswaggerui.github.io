@@ -1107,6 +1107,9 @@ components:
           title: Tolerance(In Seconds)
         status:
           $ref: '#/components/schemas/RouteStatus'
+        isAssigned:
+          type: boolean
+          readOnly: true
         description:
           type: string
         note:
@@ -1293,7 +1296,8 @@ components:
           type: integer
           readOnly: true
         carriedTasks:
-          $ref: '#/components/schemas/CheckInTaskData'
+          items:
+            $ref: '#/components/schemas/CheckInTaskData'
         description:
           type: string
         isSkipped:
