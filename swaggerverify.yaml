@@ -593,14 +593,35 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
   
-  /patrols/scheduledEvents/{eventId}:
+  /patrols/calendar-scheduled-events/event/{eventId}:
     get:
       tags:
         - Patrol Service
-      summary: Retrieves set of patrol scheduled events related to event
-      description: Retrieves patrol scheduled events related to event
+      summary: Retrieves set of calendar scheduled events related to event
+      description: Retrieves calendar scheduled events related to event
       parameters:
       - $ref: '#/components/parameters/EventId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolEventListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /patrols/calendar-scheduled-events/site/{siteId}:
+    get:
+      tags:
+        - Patrol Service
+      summary: Retrieves set of calendar scheduled events related to site
+      description: Retrieves calendar scheduled events related to site
+      parameters:
+      - $ref: '#/components/parameters/SiteId'
       responses:
         200:
           $ref: '#/components/responses/PatrolEventListResponse'
@@ -1315,6 +1336,10 @@ components:
         siteId:
           type: integer
           title: Site Id  
+        orgId:
+          type: integer
+          title: Org Id 
+          readOnly: true 
         checkInTime:
           title: Checkin time (unix epoch timestamp)
           type: integer
