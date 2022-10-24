@@ -1400,9 +1400,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Assigned User Id  
-        additionalInfo:
-          type: string
-        interval:
+        tolerance:
           type: integer
           format: int64
           example: 100000
@@ -1410,6 +1408,8 @@ components:
           type: array
           items:
             type: string
+        additionalInfo:
+          type: string
               
           
         createdByName:
