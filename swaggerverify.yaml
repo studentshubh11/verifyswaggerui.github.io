@@ -148,13 +148,15 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /checkpoints/{checkpointId}/status/{checkpointStatusType}:        
+  /checkpoints/status/{checkpointId}:        
     put:
       tags:
         - Checkpoint Service
       parameters:
       - $ref: '#/components/parameters/CheckpointId'
-      - $ref: '#/components/parameters/CheckpointStatusType'
+    
+      requestBody:
+        $ref: '#/components/requestBodies/CheckpointDisableRequest'
       summary: Enable/Disable checkpoint
       description:  Enable/Disable a checkpoint
       responses:
@@ -935,7 +937,17 @@ components:
         long:
           allOf:
             - $ref: '#/components/schemas/Numeric'
-          
+
+    CheckpointDisableData:
+      title: Checkpoint Disable/Enable
+      type: object
+      required:
+        - isDisabled
+      isDisabled:
+          type: number
+          format: number
+          example: 1
+
     CheckpointEntryData:
       title: Checkpoint Entry
       type: object
@@ -1614,6 +1626,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CheckpointEntryData'
+    CheckpointDisableRequest:
+      description: Checkpoint entry request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckpointDisableData'        
     
     PatrolScheduleEventRequest:
       description: Schedule Action Payload
