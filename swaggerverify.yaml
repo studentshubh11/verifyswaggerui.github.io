@@ -91,7 +91,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
     
-  /checkpoints/verification-type:
+  /checkpoint/verification-type:
     get:
       tags:
         - Checkpoint Service
@@ -110,7 +110,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /checkpoints/{checkpointId}:
+  /checkpoint/{checkpointId}:
     parameters:
       - $ref: '#/components/parameters/CheckpointId'
     put:
@@ -148,7 +148,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /checkpoints/status/{checkpointId}:        
+  /checkpoint/status/{checkpointId}:        
     put:
       tags:
         - Checkpoint Service
@@ -173,7 +173,7 @@ paths:
           
  
           
-  /checkpoints/site/{siteId}:
+  /checkpoint/site/{siteId}:
     get:
       tags:
         - Checkpoint Service
@@ -193,7 +193,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
                   
-  /checkpoints/route/{routeId}:
+  /checkpoint/route/{routeId}:
     get:
       tags:
         - Checkpoint Service
