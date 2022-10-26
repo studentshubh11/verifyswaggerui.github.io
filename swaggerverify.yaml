@@ -381,7 +381,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
   
   
-  /patrols/{scheduleEventId}/risk-assessment:
+  /patrols/risk-assessment/{scheduleEventId}:
     post:
       tags:
         - Patrol Service
@@ -403,14 +403,13 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /patrols/{patrolId}/checkin/{scheduleEventId}:
+  /patrols/checkin/{scheduleEventId}:
     post:
       tags:
         - Patrol Service
       summary: Make a Check In While Patroling On A Checkpoint
       description: This Api makes a checkin entry in the database.
       parameters:
-      - $ref: '#/components/parameters/PatrolId'
       - $ref: '#/components/parameters/ScheduleEventId'
       requestBody:
         $ref: '#/components/requestBodies/PatrolCheckinRequest'
@@ -425,6 +424,27 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse' 
+          
+          
+    parameters:
+      - $ref: '#/components/parameters/ScheduleEventId'
+    get:
+      tags:
+        - Patrol Service
+      summary: Get Checkins Based On ScheduleEventId
+      description: This Api Fetches The Set Of Checkins For A ScheduleEventId.
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolCheckInListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'             
+                  
           
                
   /patrols/{scheduleEventId}/start:
@@ -637,26 +657,6 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
   
-  /patrols/{scheduleEventId}/checkin:
-    parameters:
-      - $ref: '#/components/parameters/ScheduleEventId'
-    get:
-      tags:
-        - Patrol Service
-      summary: Get Checkins Based On ScheduleEventId
-      description: This Api Fetches The Set Of Checkins For A ScheduleEventId.
-      responses:
-        200:
-          $ref: '#/components/responses/PatrolCheckInListResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'             
-                  
      
 components:
   securitySchemes:
@@ -1363,7 +1363,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Patrol Id  
-          readOnly: true
         routeId:
           allOf:
             - $ref: '#/components/schemas/Guid'
