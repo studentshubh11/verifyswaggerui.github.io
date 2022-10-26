@@ -357,17 +357,14 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
             
             
-       
-  /patrols/{routeId}:
+  /patrols:
     post:
-      parameters:
-        - $ref: '#/components/parameters/RouteId'
       tags:
         - Patrol Service
       summary: Add a new patrol schedule
       description: Add a new patrol schedule
       requestBody:
-        $ref: '#/components/requestBodies/PatrolRequest'
+        $ref: '#/components/requestBodies/PatrolPostRequest'
       responses:
         201:
           $ref: '#/components/responses/PatrolGuidResponse'
@@ -379,7 +376,24 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
-  
+          
+    get:
+      tags:
+        - Patrol Service
+      summary:  Retrieves Patrols By OrgId
+      description: 
+        Retrieves Patrols By OrgId
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
   
   /patrols/risk-assessment/{scheduleEventId}:
     post:
@@ -447,7 +461,7 @@ paths:
                   
           
                
-  /patrols/{scheduleEventId}/start:
+  /patrols/start/{scheduleEventId}:
     put:
       tags:
         - Patrol Service
@@ -469,7 +483,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /patrols/{scheduleEventId}/abandon:
+  /patrols/abandon/{scheduleEventId}:
     put:
       tags:
         - Patrol Service
@@ -491,7 +505,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
   
-  /patrols/{scheduleEventId}/complete:
+  /patrols/complete/{scheduleEventId}:
     put:
       tags:
         - Patrol Service
@@ -523,7 +537,7 @@ paths:
       summary: Update an existing patrol
       description: Update an existing patrol by Id
       requestBody:
-        $ref: '#/components/requestBodies/PatrolRequest'
+        $ref: '#/components/requestBodies/PatrolPutRequest'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -551,26 +565,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
-          
-  /patrols:
-    get:
-      tags:
-        - Patrol Service
-      summary:  Retrieves Patrols By OrgId
-      description: 
-        Retrieves Patrols By OrgId
-      responses:
-        200:
-          $ref: '#/components/responses/PatrolListResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'
-          
+    
                   
   /patrols/user/{userId}:
     get:
@@ -656,6 +651,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
 
+  
   
      
 components:
@@ -1417,38 +1413,18 @@ components:
           readOnly: true      
                    
   
-    PatrolEntryData:
-      title: Patrol Entry
+    PatrolPutEntryData:
       type: object
       required:
         - name
       properties:
-        id:
-          # Returned by GET, not used in POST/PUT/PATCH
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Patrol Id
-          readOnly: true
         name:
           type: string
           format: string
-          example: 'Patrol 1'
-        orgId:
-          title: Organisation Id
-          type: integer 
-          readOnly: true  
-        routeId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Route Id
-          readOnly: true
+          example: 'Patrol 1'  
         eventId:
           type: string
           title: Event Id 
-        isScheduled:
-          type: boolean
-          example: true
-          readOnly: true
         scheduleDate:
          allOf:
             - $ref: '#/components/schemas/DateTime'
@@ -1471,31 +1447,62 @@ components:
           example: 100000
         additionalInfo:
           type: string
-              
-          
-        createdByName:
-          type: string
-          readOnly: true
-        createdDate:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-            - title: Create date of entry. Default to now() if not supplied
-          readOnly: true
-        modifiedDate:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-            - title: Last modify date of entry. Default to now() if not supplied
-          readOnly: true
-        createdBy:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-            - title: User Id creating entry. Default to current use if not supplied
-          readOnly: true
-        modifiedBy:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-            - title: User Id that last modified the entry. Default to current use if not supplied
-          readOnly: true
+    
+    
+    PatrolPostEntryData:
+     allOf:
+        - $ref: '#/components/schemas/PatrolPutEntryData'
+        - type: object
+          required:
+            - routeId
+          properties:
+            routeId:
+              allOf:
+                - $ref: '#/components/schemas/Guid'
+              title: Route Id  
+  
+    PatrolEntryData:
+       allOf:
+        - $ref: '#/components/schemas/PatrolPostEntryData'
+        - type: object
+          properties:
+            id:
+              # Returned by GET, not used in POST/PUT/PATCH
+              allOf:
+                - $ref: '#/components/schemas/Guid'
+              title: Patrol Id
+              readOnly: true
+            orgId:
+              title: Organisation Id
+              type: integer 
+              readOnly: true
+            isScheduled:
+              type: boolean
+              example: true
+              readOnly: true
+            createdByName:
+              type: string
+              readOnly: true
+            createdDate:
+              allOf:
+                - $ref: '#/components/schemas/DateTime'
+                - title: Create date of entry. Default to now() if not supplied
+              readOnly: true
+            modifiedDate:
+              allOf:
+                - $ref: '#/components/schemas/DateTime'
+                - title: Last modify date of entry. Default to now() if not supplied
+              readOnly: true
+            createdBy:
+              allOf:
+                - $ref: '#/components/schemas/Guid'
+                - title: User Id creating entry. Default to current use if not supplied
+              readOnly: true
+            modifiedBy:
+              allOf:
+                - $ref: '#/components/schemas/Guid'
+                - title: User Id that last modified the entry. Default to current use if not supplied
+              readOnly: true
    
   responses:
     CheckpointGuidResponse:
@@ -1663,9 +1670,18 @@ components:
           schema:
             $ref: '#/components/schemas/RouteCheckpointEntryData'
             
-    PatrolRequest:
+    PatrolPostRequest:
       description: Patrol entry request
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PatrolEntryData'
+            $ref: '#/components/schemas/PatrolPostEntryData'
+   
+            
+    PatrolPutRequest:
+      description: Patrol entry request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatrolPutEntryData'
+
