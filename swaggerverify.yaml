@@ -889,13 +889,13 @@ components:
       type: object
       properties:
         struct:
-          $ref: '#/components/schemas/CheckpointVerificationEntryStruct'
+          $ref: '#/components/schemas/VerificationTypesEntryStruct'
         data:
           type: array
           items:
             $ref: '#/components/schemas/VerificationTypeEntryData'
     
-    CheckpointVerificationEntryStruct:
+    VerificationTypesEntryStruct:
       title: Struct Definition for Checkpoint
       type: object
       properties:
@@ -904,7 +904,7 @@ components:
         v:
           type: string
           pattern: '^V\d$'
-      example: '{"c":"CheckpointVerification","v":"V1"}'  
+      example: '{"c":"VerificationTypes","v":"V1"}'  
       
     CheckpointEntryStruct:
       title: Struct Definition for Checkpoint
