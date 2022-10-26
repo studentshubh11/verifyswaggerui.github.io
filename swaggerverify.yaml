@@ -943,10 +943,11 @@ components:
       type: object
       required:
         - isDisabled
-      isDisabled:
-          type: number
-          format: number
-          example: 1
+      properties:  
+        isDisabled:
+           type: number
+           format: number
+           example: 1
 
     CheckpointEntryData:
       title: Checkpoint Entry
@@ -1627,7 +1628,7 @@ components:
           schema:
             $ref: '#/components/schemas/CheckpointEntryData'
     CheckpointDisableRequest:
-      description: Checkpoint entry request
+      description: Checkpoint Disable request
       content:
         application/json:
           schema:
