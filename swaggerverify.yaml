@@ -70,7 +70,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
 
-  /checkpoints:
+  /checkpoint:
     post:
       tags:
         - Checkpoint Service
