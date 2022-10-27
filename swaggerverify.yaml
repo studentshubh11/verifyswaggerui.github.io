@@ -1020,6 +1020,8 @@ components:
           type: string
         note:
           type: string
+        risks:
+          type: string  
         createdDate:
           allOf:
             - $ref: '#/components/schemas/DateTime'
