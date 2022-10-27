@@ -944,9 +944,7 @@ components:
     LocationData:
       title: Location Entry
       type: object
-      required:
-        - name
-        - orgId
+      
       properties:
         lat:
           allOf:
@@ -954,6 +952,14 @@ components:
         long:
           allOf:
             - $ref: '#/components/schemas/Numeric'
+    ImageMetaData:
+      title: ImageMetaData
+      type: object
+      
+      properties:
+        imageId:
+          type: string
+                
 
     CheckpointDisableData:
       title: Checkpoint Disable/Enable
@@ -973,6 +979,7 @@ components:
         - name
         - siteId
         - verificationTypeId
+        - location
       properties:
         id:
           # Returned by GET, not used in POST/PUT/PATCH
@@ -993,12 +1000,12 @@ components:
           format: string
           example: 'Checkpiont 1'
         location:
-          $ref: '#/components/schemas/LocationData'
+          $ref: '#/components/schemas/ImageMetaData'
         referenceImages:
           type: array
           items:
             type: string
-        ImageMetaData: 
+        imageMetaData: 
           type: string
         plotLocation:
           type: boolean
