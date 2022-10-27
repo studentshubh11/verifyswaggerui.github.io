@@ -215,15 +215,14 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
                   
-  /checkpoint/route/{routeId}:
+  /checkpoint/:
     get:
       tags:
         - Checkpoint Service
-      summary: Retrieves a set of Checkpoint entries range
+      summary: Retrieves a set of Checkpoint entries range On the Basis Of OrgId Passed Through token 
       description: 
         Retrieves the  set of Checkpoint entries
-      parameters:
-      - $ref: '#/components/parameters/RouteId'
+     
       responses:
         200:
           $ref: '#/components/responses/CheckpointListResponse'
@@ -1471,7 +1470,7 @@ components:
           type: string
 
     CheckPointByIdRequestData:
-      title: Verification Definition
+      title: CheckPoint By Ids
       type: object
       properties:
        
