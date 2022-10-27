@@ -1470,15 +1470,16 @@ components:
         additionalInfo:
           type: string
 
-    CheckPointByIdsRequestData:
+    CheckPointByIdRequestData:
+      title: Verification Definition
       type: object
-      required:
-        - checkPointIds
       properties:
+       
         checkPointIds:
-          type: string
-          format: string
-          example: 'Patrol 1'  
+          type: array
+          items:
+             type: string
+          example: ["str1", "str2", "str3"]
             
     
     
@@ -1723,6 +1724,6 @@ components:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CheckPointByIdsRequestData'
+              $ref: '#/components/schemas/CheckPointByIdRequestData'
 
 
