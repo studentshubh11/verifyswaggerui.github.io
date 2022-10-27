@@ -107,6 +107,26 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
+
+    /checkpoint/byids:
+     post:
+       tags:
+         - Checkpoint Service
+       summary: Gets CheckPoint By Passing Array OF Check[oint Ids
+       description: Gets CheckPoint By Passing Array OF Check[oints]
+       requestBody:
+         $ref: '#/components/requestBodies/CheckpointRequest'
+       responses:
+        201:
+          $ref: '#/components/responses/CheckpointGuidResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'      
           
 
   /checkpoint/byids:
