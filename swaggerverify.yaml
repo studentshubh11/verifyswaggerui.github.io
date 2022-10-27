@@ -1000,13 +1000,13 @@ components:
           format: string
           example: 'Checkpiont 1'
         location:
-          $ref: '#/components/schemas/ImageMetaData'
+          $ref: '#/components/schemas/LocationData'
         referenceImages:
           type: array
           items:
             type: string
         imageMetaData: 
-          type: string
+          $ref: '#/components/schemas/ImageMetaData'
         plotLocation:
           type: boolean
         toleranceInMeter:
