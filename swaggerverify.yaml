@@ -988,8 +988,7 @@ components:
           title: Checkpoint Id
           readOnly: true
         siteId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
+          type: number
           title: Site Id  
         verificationTypeId:
           allOf:
