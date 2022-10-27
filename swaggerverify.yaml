@@ -90,6 +90,28 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
+
+  /checkpoint/byids:
+    post:
+      tags:
+        - Checkpoint Service
+      summary: Get a Checkpoint List Based On the ChceckPointIDs  
+      description: Get a Checkpoint List Based On the ChceckPointIDs 
+      requestBody:
+        $ref: '#/components/requestBodies/CheckPointbyIdsRequest'
+
+      responses:
+        200:
+          $ref: '#/components/responses/CheckpointListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'  
+                
     
   /checkpoint/verification-type:
     get:
@@ -1447,6 +1469,17 @@ components:
           example: 100000
         additionalInfo:
           type: string
+
+    CheckPointByIdsRequestData:
+      type: object
+      required:
+        - checkPointIds
+      properties:
+        checkPointIds:
+          type: string
+          format: string
+          example: 'Patrol 1'  
+            
     
     
     PatrolPostEntryData:
@@ -1684,4 +1717,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PatrolPutEntryData'
+
+    CheckPointbyIdsRequest:
+        description: CheckpointByIds
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckPointByIdsRequestData'
+
 
