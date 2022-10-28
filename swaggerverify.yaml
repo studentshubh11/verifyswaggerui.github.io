@@ -673,6 +673,48 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
   
+  /patrols/schedule-event/{scheduleEventId}:
+    get:
+      tags:
+        - Patrol Service
+      summary: Retrieves saved schedule event 
+      description: Retrieves saved schedule event 
+      parameters:
+      - $ref: '#/components/parameters/ScheduleEventId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolScheduleEventResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+
+ 
+  /patrols/schedule-events/{eventId}:
+    get:
+      tags:
+        - Patrol Service
+      summary: Retrieves saved schedule events related to event 
+      description: Retrieves saved schedule events related to event  
+      parameters:
+      - $ref: '#/components/parameters/EventId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolScheduleEventListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse' 
+  
+     
   
      
 components:
@@ -843,6 +885,16 @@ components:
       enum:
         - ENABLED
         - DISABLED 
+    PatrolStatus:
+      type: string
+      description: Patrol Status
+      readOnly: true
+      example: 'READY'
+      enum:
+        - READY
+        - STARTED
+        - ABANDONED
+        - COMPLETED
         
     Error:
       title: Error Response
@@ -1273,7 +1325,25 @@ components:
         data:
           items:
             $ref: '#/components/schemas/PatrolCheckInData' 
-            
+         
+    ScheduleEventList:
+      title: Set of Checkin Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/ScheduleEventGetData'
+    ScheduleEvent:
+      title: Set of Checkin Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          $ref: '#/components/schemas/ScheduleEventGetData'
+                    
     PatrolEntryStruct:
       title: Struct definition for Patrol
       type: object
@@ -1329,6 +1399,53 @@ components:
               type: array
               items:
                 type: string
+                
+    
+    ScheduleEventGetData:
+      allOf:
+        - $ref: '#/components/schemas/RiskAssessmentData'
+        - type: object
+          properties:
+            id:
+              allOf:
+              - $ref: '#/components/schemas/Guid'
+              readOnly: true
+            assignUserId:
+              allOf:
+              - $ref: '#/components/schemas/Guid'
+              readOnly: true
+            statusExecutionTime:
+              type: integer
+              readOnly: true
+            status:
+              $ref: '#/components/schemas/PatrolStatus'
+            orgId:
+              type: integer
+              readOnly: true
+            createdByName:
+              type: string
+              readOnly: true
+            createdDate:
+              allOf:
+                - $ref: '#/components/schemas/DateTime'
+                - title: Create date of entry. Default to now() if not supplied
+              readOnly: true
+            modifiedDate:
+              allOf:
+                - $ref: '#/components/schemas/DateTime'
+                - title: Last modify date of entry. Default to now() if not supplied
+              readOnly: true
+            createdBy:
+              allOf:
+                - $ref: '#/components/schemas/Guid'
+                - title: User Id creating entry. Default to current use if not supplied
+              readOnly: true
+            modifiedBy:
+              allOf:
+                - $ref: '#/components/schemas/Guid'
+                - title: User Id that last modified the entry. Default to current use if not supplied
+              readOnly: true
+    
                 
     PatrolEventData:
       title: Patrol Event
@@ -1666,6 +1783,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Patrol' 
+    PatrolScheduleEventResponse:
+      description: Schedule Action Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduleEvent'
+    PatrolScheduleEventListResponse:
+      description: Schedule Action Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduleEventList'
             
   requestBodies:
     CheckpointRequest:
