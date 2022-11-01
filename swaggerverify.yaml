@@ -1384,7 +1384,7 @@ components:
       
       data:
           items:
-            $ref: '#/components/schemas/ScheduleEventGetData'
+            $ref: '#/components/schemas/ScheduleServiceEventCreateResponseData'
 
     ScheduleEvent:
       title: Set of Checkin Definition
@@ -1922,7 +1922,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ScheduleEventList'        
+            $ref: '#/components/schemas/ScheduleServiceEventCreate'        
             
   requestBodies:
     CheckpointRequest:
