@@ -722,7 +722,7 @@ paths:
       summary: Creates Google Events  
       description: Creates Google Events   
       requestBody:
-        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
+        $ref: '#/components/requestBodies/ScheduleServiceEventRequest'
       responses:
         200:
           $ref: '#/components/responses/PatrolScheduleEventListResponse'
