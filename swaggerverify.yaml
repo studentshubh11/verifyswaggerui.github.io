@@ -725,7 +725,7 @@ paths:
         $ref: '#/components/requestBodies/ScheduleServiceEventRequest'
       responses:
         200:
-          $ref: '#/components/responses/PatrolScheduleEventListResponse'
+          $ref: '#/components/responses/ScheduleServiceCreateEventResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -1376,6 +1376,16 @@ components:
         data:
           items:
             $ref: '#/components/schemas/ScheduleEventGetData'
+
+
+    ScheduleServiceEventCreate:
+      title: Event Create Response Of Scheduling Service
+      type: object
+      
+      data:
+          items:
+            $ref: '#/components/schemas/ScheduleEventGetData'
+
     ScheduleEvent:
       title: Set of Checkin Definition
       type: object
@@ -1496,6 +1506,19 @@ components:
               type: array
               items:
                 type: string
+
+
+    ScheduleServiceEventCreateResponseData:
+      
+        - type: object
+          properties:
+            eventId:
+              type: string
+              title: Event Id   Of the event Created
+            IcalUId:
+              type: string
+              title: IcalUId Unique  Id   Of the event Created  
+                        
                 
     
     ScheduleEventGetData:
@@ -1892,6 +1915,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ScheduleEventList'
+
+
+    ScheduleServiceCreateEventResponse:
+      description: Schedule Action Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduleEventList'        
             
   requestBodies:
     CheckpointRequest:
