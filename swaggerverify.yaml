@@ -741,8 +741,9 @@ paths:
         - Scheduling Service
       summary: Retrieves Google Calendar events
       description:  Retrieves Google Calendar events
-      parameters:
-      - $ref: '#/components/parameters/EventId'
+      requestBody:
+        $ref: '#/components/requestBodies/ScheduleServiceEventListRequest'
+
       responses:
         200:
           $ref: '#/components/responses/PatrolScheduleEventListResponse'
@@ -1454,6 +1455,32 @@ components:
 
         calendarId:
             type: string     
+
+
+    ScheduleServiceListPayloadData:
+      type: object
+      required:
+        - maxResults
+        
+      properties:
+      
+        maxResults:
+          type: number      
+
+        startDate:
+          type: string  
+
+        endDate:
+          type: string   
+
+        query:
+           type: string 
+
+        eventId:
+            type: string
+
+        calendarId:
+            type: string             
                    
          
         
@@ -1893,6 +1920,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ScheduleServiceEventData'         
+
+    ScheduleServiceEventListRequest:
+      description: Schedule Service  Event  List Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduleServiceListPayloadData'         
+                    
             
     PatrolRiskAssessmentRequest:
       description: Risk Assessment Payload
