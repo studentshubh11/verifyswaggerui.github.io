@@ -714,6 +714,46 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse' 
   
+
+  /scheduling:
+    post:
+      tags:
+        - Scheduling Service
+      summary: Creates Google Events  
+      description: Creates Google Events   
+      parameters:
+      - $ref: '#/components/parameters/EventId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolScheduleEventListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse' 
+
+  /scheduling/list:
+    post:
+      tags:
+        - Scheduling Service
+      summary: Retrieves Google Calendar events
+      description:  Retrieves Google Calendar events
+      parameters:
+      - $ref: '#/components/parameters/EventId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolScheduleEventListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'      
      
   
      
