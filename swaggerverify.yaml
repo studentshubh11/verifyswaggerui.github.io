@@ -721,8 +721,8 @@ paths:
         - Scheduling Service
       summary: Creates Google Events  
       description: Creates Google Events   
-      parameters:
-      - $ref: '#/components/parameters/EventId'
+      requestBody:
+        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
       responses:
         200:
           $ref: '#/components/responses/PatrolScheduleEventListResponse'
@@ -1425,6 +1425,36 @@ components:
           title: Route Id
         eventId:
           type: string
+
+
+    ScheduleServiceEventData:
+      type: object
+      required:
+        - summary
+        - startDateAndTime
+        - endDateAndTime
+        - recurrence
+        - timeZone
+      properties:
+      
+        summary:
+          type: string      
+
+        startDateAndTime:
+          type: string  
+
+        endDateAndTime:
+          type: string   
+
+        recurrence:
+           type: string 
+
+        timeZone:
+            type: string
+
+        calendarId:
+            type: string     
+                   
          
         
     RiskAssessmentData:
@@ -1856,6 +1886,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ScheduleEventData' 
+
+    ScheduleServiceEventRequest:
+      description: Schedule Service Create Event  Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduleServiceEventData'         
             
     PatrolRiskAssessmentRequest:
       description: Risk Assessment Payload
