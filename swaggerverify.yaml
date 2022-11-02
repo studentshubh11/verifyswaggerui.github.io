@@ -1412,9 +1412,9 @@ components:
         struct:
           $ref: '#/components/schemas/ScheduleServiceEventStruct'
         data:
-        type: array
-        items:
-        $ref: '#/components/schemas/ScheduleServiceEventListData'
+         type: array
+         items:
+          $ref: '#/components/schemas/ScheduleServiceEventListData'
 
                     
     PatrolEntryStruct:
@@ -1472,7 +1472,7 @@ components:
 
 
     ScheduleServiceEventListData:
-      type: array
+      type: object
       required:
         - summary
         - startDateAndTime
