@@ -746,7 +746,7 @@ paths:
 
       responses:
         200:
-          $ref: '#/components/responses/PatrolScheduleEventListResponse'
+          $ref: '#/components/responses/SchedulingServiceEventListResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -1372,17 +1372,29 @@ components:
       type: object
       properties:
         struct:
-          $ref: '#/components/schemas/PatrolEntryStruct'
+          $ref: '#/components/schemas/ScheduleServiceEventStruct'
         data:
           items:
             $ref: '#/components/schemas/ScheduleEventGetData'
 
 
+    ScheduleServiceEventList:
+      title: Set of Checkin Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/ScheduleEventGetData'        
+
+
     ScheduleServiceEventCreate:
       title: Event Create Response Of Scheduling Service
       type: object
+      properties:
       
-      data:
+        data:
           items:
             $ref: '#/components/schemas/ScheduleServiceEventCreateResponseData'
 
@@ -1405,6 +1417,17 @@ components:
           type: string
           pattern: '^V\d$'
       example: '{"c":"Patrol","v":"V1"}'
+
+    ScheduleServiceEventStruct:
+      title: Struct definition for ScheduleServiceEvent
+      type: object
+      properties:
+        c:
+          type: string
+        v:
+          type: string
+          pattern: '^V\d$'
+      example: '{"c":"Event","v":"V1"}' 
     
     CheckInTaskData:
       title: Checkin Task Entry
@@ -1917,8 +1940,16 @@ components:
             $ref: '#/components/schemas/ScheduleEventList'
 
 
-    ScheduleServiceCreateEventResponse:
+    SchedulingServiceEventListResponse:
       description: Schedule Action Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduleEventList'          
+
+
+    ScheduleServiceCreateEventResponse:
+      description: Schedule Service Event Create Response 
       content:
         application/json:
           schema:
