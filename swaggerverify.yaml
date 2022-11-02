@@ -1404,6 +1404,16 @@ components:
           $ref: '#/components/schemas/PatrolEntryStruct'
         data:
           $ref: '#/components/schemas/ScheduleEventGetData'
+
+    ScheduleEventListResponse:
+      title: Set of Events
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          $ref: '#/components/schemas/ScheduleEventGetData'
+
                     
     PatrolEntryStruct:
       title: Struct definition for Patrol
@@ -1530,6 +1540,7 @@ components:
 
 
     ScheduleServiceEventCreateResponseData:
+        allOf:
         - type: object
           properties:
             eventId:
