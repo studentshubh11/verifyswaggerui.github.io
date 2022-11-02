@@ -1412,8 +1412,9 @@ components:
         struct:
           $ref: '#/components/schemas/ScheduleServiceEventStruct'
         data:
-         array:
-          $ref: '#/components/schemas/ScheduleServiceEventData'
+        type: array
+        items:
+        $ref: '#/components/schemas/ScheduleServiceEventListData'
 
                     
     PatrolEntryStruct:
@@ -1469,6 +1470,34 @@ components:
         eventId:
           type: string
 
+
+    ScheduleServiceEventListData:
+      type: array
+      required:
+        - summary
+        - startDateAndTime
+        - endDateAndTime
+        - recurrence
+        - timeZone
+      properties:
+      
+        summary:
+          type: string      
+
+        startDateAndTime:
+          type: string  
+
+        endDateAndTime:
+          type: string   
+
+        recurrence:
+           type: string 
+
+        timeZone:
+            type: string
+
+        calendarId:
+            type: string
 
     ScheduleServiceEventData:
       type: object
