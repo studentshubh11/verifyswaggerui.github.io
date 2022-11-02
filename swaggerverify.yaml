@@ -68,7 +68,25 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
-          
+  
+  /patrols/HasStarted/{routeId}:
+    get:
+      tags:
+        - API Communication
+      parameters:
+      - $ref: '#/components/parameters/RouteId'
+      summary: Check if patrol has started
+      responses:
+        201:
+          $ref: '#/components/responses/PatrolBooleanResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'        
 
   /checkpoint:
     post:
@@ -1795,10 +1813,12 @@ components:
           required:
             - routeId
           properties:
+            isRiskAssessmentMandatory:
+              type: boolean
             routeId:
               allOf:
                 - $ref: '#/components/schemas/Guid'
-              title: Route Id  
+              title: Route Id 
   
     PatrolEntryData:
        allOf:
@@ -1818,7 +1838,10 @@ components:
             isScheduled:
               type: boolean
               example: true
-              readOnly: true
+              readOnly: true 
+            IsStarted:
+              type: boolean
+              readOnly: true 
             createdByName:
               type: string
               readOnly: true
