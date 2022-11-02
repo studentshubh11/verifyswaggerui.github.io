@@ -69,12 +69,12 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
   
-  /patrols/HasStarted/{routeId}:
-    get:
+  /patrols/has-started:
+    put:
       tags:
         - API Communication
-      parameters:
-      - $ref: '#/components/parameters/RouteId'
+      requestBody:
+        $ref: '#/components/requestBodies/HasPatrolStartedRequest'
       summary: Check if patrol has started
       responses:
         201:
@@ -2081,7 +2081,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PatrolPostEntryData'
-   
+      
+    HasPatrolStartedRequest:
+      content:
+        application/json:
+          schema:
+            properties:  
+              routeIds:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Guid'
             
     PatrolPutRequest:
       description: Patrol entry request
