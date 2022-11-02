@@ -1393,10 +1393,8 @@ components:
       title: Event Create Response Of Scheduling Service
       type: object
       properties:
-      
         data:
-          items:
-            $ref: '#/components/schemas/ScheduleServiceEventCreateResponseData'
+          $ref: '#/components/schemas/ScheduleServiceEventCreateResponseData'
 
     ScheduleEvent:
       title: Set of Checkin Definition
@@ -1532,7 +1530,6 @@ components:
 
 
     ScheduleServiceEventCreateResponseData:
-      
         - type: object
           properties:
             eventId:
