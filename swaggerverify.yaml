@@ -1410,9 +1410,9 @@ components:
       type: object
       properties:
         struct:
-          $ref: '#/components/schemas/PatrolEntryStruct'
+          $ref: '#/components/schemas/ScheduleServiceEventStruct'
         data:
-          $ref: '#/components/schemas/ScheduleEventGetData'
+          $ref: '#/components/schemas/ScheduleServiceEventData'
 
                     
     PatrolEntryStruct:
@@ -1953,7 +1953,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ScheduleEventList'          
+            $ref: '#/components/schemas/ScheduleEventListResponse'          
 
 
     ScheduleServiceCreateEventResponse:
