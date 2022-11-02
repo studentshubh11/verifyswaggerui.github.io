@@ -1412,6 +1412,7 @@ components:
         struct:
           $ref: '#/components/schemas/ScheduleServiceEventStruct'
         data:
+         array:
           $ref: '#/components/schemas/ScheduleServiceEventData'
 
                     
