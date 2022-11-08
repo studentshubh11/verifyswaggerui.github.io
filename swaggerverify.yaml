@@ -649,14 +649,16 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
   
-  /patrols/calendar-schedule-events/event/{eventId}:
+  /patrols/calendar-schedule-events:
     get:
       tags:
         - Patrol Service
       summary: Retrieves set of calendar schedule events related to event
       description: Retrieves calendar schedule events related to event
       parameters:
-      - $ref: '#/components/parameters/EventId'
+      - $ref: '#/components/parameters/QueryEventId'
+      - $ref: '#/components/parameters/FromDate'
+      - $ref: '#/components/parameters/ToDate'
       responses:
         200:
           $ref: '#/components/responses/PatrolEventListResponse'
@@ -678,6 +680,8 @@ paths:
       description: Retrieves calendar schedule events related to site
       parameters:
       - $ref: '#/components/parameters/SiteId'
+      - $ref: '#/components/parameters/FromDate'
+      - $ref: '#/components/parameters/ToDate'
       responses:
         200:
           $ref: '#/components/responses/PatrolEventListResponse'
@@ -860,14 +864,21 @@ components:
       description: Site id
       required: true
       schema:
-        $ref: '#/components/schemas/Guid'
+        type: integer
     RiskAssessmentId:
       name: riskAssessmentId
       in: path
       description: Risk Assessment id
       required: true
       schema:
-        $ref: '#/components/schemas/Guid'
+        type: string
+    QueryEventId:
+      name: eventId
+      in: query
+      description: Event id
+      required: false
+      schema:
+        type: string
     FromDate:
       name: fromDate
       in: query
@@ -1655,12 +1666,19 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Patrol Id
+        routeId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Route Id
         eventId:
           type: string
           description: EventId from google scheduler api(iCalUId)
         scheduleEventId:
           type: string
           description: Scheduled EventId from google scheduler api (id)
+        riskAssessmentId:
+          type: string
+          title: Risk Assessment Id  
         assignedId:
           allOf:
             - $ref: '#/components/schemas/Guid'
