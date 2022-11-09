@@ -891,7 +891,7 @@ components:
       name: toDate
       in: query
       description: The end of the date range (UTC), formatted as "YYYY-MM-DDTHH:MM:SS" (e.g. "1969-07-21T02:56:15")
-      required: false
+      required: true
       schema:
         type: string
         format: date-time
