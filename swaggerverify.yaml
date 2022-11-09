@@ -434,27 +434,27 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
   
-  /patrols/risk-assessment/{scheduleEventId}:
-    post:
-      tags:
-        - Patrol Service
-      summary: Create risk assessment in patrol schedule event
-      description:  Create risk assessment in patrol schedule event
-      parameters:
-      - $ref: '#/components/parameters/ScheduleEventId'
-      requestBody:
-        $ref: '#/components/requestBodies/PatrolRiskAssessmentRequest'
-      responses:
-        200:
-          $ref: '#/components/responses/PatrolBooleanResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'
+  # /patrols/risk-assessment/{scheduleEventId}:
+  #   post:
+  #     tags:
+  #       - Patrol Service
+  #     summary: Create risk assessment in patrol schedule event
+  #     description:  Create risk assessment in patrol schedule event
+  #     parameters:
+  #     - $ref: '#/components/parameters/ScheduleEventId'
+  #     requestBody:
+  #       $ref: '#/components/requestBodies/PatrolRiskAssessmentRequest'
+  #     responses:
+  #       200:
+  #         $ref: '#/components/responses/PatrolBooleanResponse'
+  #       400:
+  #         $ref: '#/components/responses/ErrorResponse'
+  #       401:
+  #         $ref: '#/components/responses/ErrorResponse'
+  #       403:
+  #         $ref: '#/components/responses/ErrorResponse'
+  #       500:
+  #         $ref: '#/components/responses/ErrorResponse'
           
   /patrols/checkin/{scheduleEventId}:
     post:
@@ -1787,7 +1787,19 @@ components:
           example: 'Patrol 1'  
         eventId:
           type: string
-          title: Event Id 
+          title: Event Id  
+        isRiskAssessmentMandatory:
+              type: boolean
+        riskAssessmentId:
+          type: string
+          title: Risk Assessment Id 
+        riskAssessmentSummary:
+          type: string
+          title: Risk Assessment Id 
+        riskAssessmentResources:
+              type: array
+              items:
+                type: string  
         scheduleDate:
          allOf:
             - $ref: '#/components/schemas/DateTime'
@@ -1831,8 +1843,6 @@ components:
           required:
             - routeId
           properties:
-            isRiskAssessmentMandatory:
-              type: boolean
             routeId:
               allOf:
                 - $ref: '#/components/schemas/Guid'
