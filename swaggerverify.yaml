@@ -500,7 +500,7 @@ paths:
                   
           
                
-  /patrols/start/{scheduleEventId}:
+  /patrols/start/{scheduleEventId}/patrol/{patrolId}:
     put:
       tags:
         - Patrol Service
@@ -508,8 +508,7 @@ paths:
       description: Start patrol event
       parameters:
       - $ref: '#/components/parameters/ScheduleEventId'
-      requestBody:
-        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
+      - $ref: '#/components/parameters/PatrolId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -522,7 +521,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-  /patrols/abandon/{scheduleEventId}:
+  /patrols/abandon/{scheduleEventId}/patrol/{patrolId}:
     put:
       tags:
         - Patrol Service
@@ -530,8 +529,7 @@ paths:
       description: Abandon patrol event
       parameters:
       - $ref: '#/components/parameters/ScheduleEventId'
-      requestBody:
-        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
+      - $ref: '#/components/parameters/PatrolId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -544,7 +542,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
   
-  /patrols/complete/{scheduleEventId}:
+  /patrols/complete/{scheduleEventId}/patrol/{patrolId}:
     put:
       tags:
         - Patrol Service
@@ -552,8 +550,7 @@ paths:
       description: Complete patrol event
       parameters:
       - $ref: '#/components/parameters/ScheduleEventId'
-      requestBody:
-        $ref: '#/components/requestBodies/PatrolScheduleEventRequest'
+      - $ref: '#/components/parameters/PatrolId'
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
