@@ -478,7 +478,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse' 
           
-          
+   
     parameters:
       - $ref: '#/components/parameters/ScheduleEventId'
     get:
@@ -1620,7 +1620,7 @@ components:
               allOf:
               - $ref: '#/components/schemas/Guid'
               readOnly: true
-            assignUserId:
+            assignedUserId:
               allOf:
               - $ref: '#/components/schemas/Guid'
               readOnly: true
