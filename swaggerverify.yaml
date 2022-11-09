@@ -1702,11 +1702,8 @@ components:
       type: object
       required:
         - siteId
-        - routeId
-        - patrolId
         - checkpointId
         - scheduleEventId
-        - eventId
        
       properties:
         id:
@@ -1719,15 +1716,18 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Patrol Id  
+          readOnly: true
         routeId:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Route Id
+          readOnly: true
         scheduleEventId:
           type: string
           readOnly: true
         eventId:
           type: string
+          readOnly: true
         checkpointId:
           allOf:
             - $ref: '#/components/schemas/Guid'
