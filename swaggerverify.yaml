@@ -434,28 +434,6 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
   
-  # /patrols/risk-assessment/{scheduleEventId}:
-  #   post:
-  #     tags:
-  #       - Patrol Service
-  #     summary: Create risk assessment in patrol schedule event
-  #     description:  Create risk assessment in patrol schedule event
-  #     parameters:
-  #     - $ref: '#/components/parameters/ScheduleEventId'
-  #     requestBody:
-  #       $ref: '#/components/requestBodies/PatrolRiskAssessmentRequest'
-  #     responses:
-  #       200:
-  #         $ref: '#/components/responses/PatrolBooleanResponse'
-  #       400:
-  #         $ref: '#/components/responses/ErrorResponse'
-  #       401:
-  #         $ref: '#/components/responses/ErrorResponse'
-  #       403:
-  #         $ref: '#/components/responses/ErrorResponse'
-  #       500:
-  #         $ref: '#/components/responses/ErrorResponse'
-          
   /patrols/checkin/{scheduleEventId}:
     post:
       tags:
@@ -1403,18 +1381,6 @@ components:
           items:
             $ref: '#/components/schemas/ScheduleEventGetData'
 
-
-    ScheduleServiceEventList:
-      title: Set of Checkin Definition
-      type: object
-      properties:
-        struct:
-          $ref: '#/components/schemas/PatrolEntryStruct'
-        data:
-          items:
-            $ref: '#/components/schemas/ScheduleEventGetData'        
-
-
     ScheduleServiceEventCreate:
       title: Event Create Response Of Scheduling Service
       type: object
@@ -1588,11 +1554,14 @@ components:
           properties:
             riskAssessmentId:
               type: string
-              title: Risk Assessment Id  
-            resources:
+              title: Risk Assessment Id 
+            riskAssessmentSummary:
+              type: string
+              title: Risk Assessment summary  
+            resourceDocs:
               type: array
               items:
-                type: string
+                $ref: '#/components/schemas/PatrolResourceDocData'
 
 
     ScheduleServiceEventCreateResponseData:
@@ -1609,50 +1578,71 @@ components:
                 
     
     ScheduleEventGetData:
-      allOf:
-        - $ref: '#/components/schemas/RiskAssessmentData'
-        - type: object
-          properties:
-            id:
-              allOf:
-              - $ref: '#/components/schemas/Guid'
-              readOnly: true
-            assignedUserId:
-              allOf:
-              - $ref: '#/components/schemas/Guid'
-              readOnly: true
-            statusExecutionTime:
-              type: integer
-              readOnly: true
-            status:
-              $ref: '#/components/schemas/PatrolStatus'
-            orgId:
-              type: integer
-              readOnly: true
-            createdByName:
-              type: string
-              readOnly: true
-            createdDate:
-              allOf:
-                - $ref: '#/components/schemas/DateTime'
-                - title: Create date of entry. Default to now() if not supplied
-              readOnly: true
-            modifiedDate:
-              allOf:
-                - $ref: '#/components/schemas/DateTime'
-                - title: Last modify date of entry. Default to now() if not supplied
-              readOnly: true
-            createdBy:
-              allOf:
-                - $ref: '#/components/schemas/Guid'
-                - title: User Id creating entry. Default to current use if not supplied
-              readOnly: true
-            modifiedBy:
-              allOf:
-                - $ref: '#/components/schemas/Guid'
-                - title: User Id that last modified the entry. Default to current use if not supplied
-              readOnly: true
-    
+      title: Patrol Schedule Event
+      type: object
+      properties:
+        id:
+          allOf:
+          - $ref: '#/components/schemas/Guid'
+          readOnly: true
+        assignedUserId:
+          allOf:
+          - $ref: '#/components/schemas/Guid'
+          readOnly: true
+        
+        riskAssessmentId:
+            type: string
+            title: Risk Assessment Id 
+        riskAssessmentSummary:
+          type: string
+          title: Risk Assessment summary  
+        resourceDocs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatrolResourceDocData'
+        statusExecutionTime:
+          type: integer
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/PatrolStatus'
+        orgId:
+          type: integer
+          readOnly: true
+        createdByName:
+          type: string
+          readOnly: true
+        createdDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Create date of entry. Default to now() if not supplied
+          readOnly: true
+        modifiedDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Last modify date of entry. Default to now() if not supplied
+          readOnly: true
+        createdBy:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+            - title: User Id creating entry. Default to current use if not supplied
+          readOnly: true
+        modifiedBy:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+            - title: User Id that last modified the entry. Default to current use if not supplied
+          readOnly: true
+              
+    PatrolResourceDocData:
+      title: Patrol Resource Document
+      type: object
+      required:
+        - name
+        - orgId
+      properties:
+        isRiskAssessment:
+          type: boolean
+        key:
+          type: string
                 
     PatrolEventData:
       title: Patrol Event
@@ -1670,32 +1660,45 @@ components:
         eventId:
           type: string
           description: EventId from google scheduler api(iCalUId)
-        scheduleEventId:
-          type: string
-          description: Scheduled EventId from google scheduler api (id)
-        riskAssessmentId:
-          type: string
-          title: Risk Assessment Id  
-        assignedId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          description: Patrol User Id
-        displayName:
-          type: string
-          description: Patrol User Name
-        email:
-          type: string
-          description: Patrol User Email
         eventName:
           type: string
           description: Event Name
-        eventDate:
+        scheduleEventId:
+          type: string
+          description: Scheduled EventId from google scheduler api (id)
+        assignedUserId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          description: Patrol User Id
+        riskAssessmentId:
+            type: string
+            title: Risk Assessment Id 
+        riskAssessmentSummary:
+          type: string
+          title: Risk Assessment summary  
+        resourceDocs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatrolResourceDocData'
+       
+        # displayName:
+        #   type: string
+        #   description: Patrol User Name
+        # email:
+        #   type: string
+        #   description: Patrol User Email
+        startDateAndTime:
           allOf:
             - $ref: '#/components/schemas/DateTime'
-        startTime:
-          type: integer
-        endTime:
-          type: integer
+        endDateAndTime:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+        timeZone:
+          type: string
+        location:
+          type: string
+        description:
+          type: string
       
     PatrolCheckInData:
       title: CheckIn Payload
@@ -1792,11 +1795,11 @@ components:
           title: Risk Assessment Id 
         riskAssessmentSummary:
           type: string
-          title: Risk Assessment Id 
-        riskAssessmentResources:
+          title: Risk Assessment Summary 
+        resourceDocs:
               type: array
               items:
-                type: string  
+                $ref: '#/components/schemas/PatrolResourceDocData'
         scheduleDate:
          allOf:
             - $ref: '#/components/schemas/DateTime'
@@ -2076,16 +2079,7 @@ components:
           schema:
             $ref: '#/components/schemas/ScheduleServiceListPayloadData'         
                     
-            
-    PatrolRiskAssessmentRequest:
-      description: Risk Assessment Payload
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RiskAssessmentData' 
-            
-    
-    
+  
     PatrolCheckinRequest:
       description: CheckIn  request Payload
       content:
