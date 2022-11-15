@@ -624,7 +624,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
   
-  /patrols/calendar-schedule-events:
+  /patrols/events:
     get:
       tags:
         - Patrol Service
@@ -647,7 +647,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
 
-  /patrols/calendar-schedule-events/site/{siteId}:
+  /patrols/events/site/{siteId}:
     get:
       tags:
         - Patrol Service
