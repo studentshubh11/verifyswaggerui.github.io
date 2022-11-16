@@ -1527,8 +1527,11 @@ components:
           type: string   
 
         days:
-          type: string
-          enum: ["SU", "MO","TU","WE","TH","FR","SA"]     
+          type: array
+          items:
+
+            type: string
+            enum: ["SU", "MO","TU","WE","TH","FR","SA"]     
 
         startDateAndTime:
           description: StartDateTime Should Be RFC3339 Compatible ex - 2006-01-02T15:04:05-07:00,-07:00 is the timezone offset
