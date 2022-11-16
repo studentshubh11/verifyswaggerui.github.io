@@ -1518,16 +1518,27 @@ components:
         - startDateAndTime
         - endDateAndTime
         - recurrence
+        - count
+        - days
         - timeZone
       properties:
       
         summary:
-          type: string      
+          type: string   
+
+        days:
+          type: string
+          enum: ["SU", "MO","TU","WE","TH","FR","SA"]     
 
         startDateAndTime:
+          description: StartDateTime Should Be RFC3339 Compatible ex - 2006-01-02T15:04:05-07:00,-07:00 is the timezone offset
           type: string  
 
+        count:
+          type: number  
+
         endDateAndTime:
+          description: EndDateTime Should Be RFC3339 Compatible ex - 2006-01-02T15:04:05-07:00,-07:00 is the timezone offset
           type: string   
 
         recurrence:
