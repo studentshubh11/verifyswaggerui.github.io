@@ -1592,24 +1592,6 @@ components:
             type: string             
                    
          
-        
-    RiskAssessmentData:
-      allOf:
-        - $ref: '#/components/schemas/ScheduleEventData'
-        - type: object
-          properties:
-            riskAssessmentId:
-              type: string
-              title: Risk Assessment Id 
-            riskAssessmentSummary:
-              type: string
-              title: Risk Assessment summary  
-            resourceDocs:
-              type: array
-              items:
-                $ref: '#/components/schemas/PatrolResourceDocData'
-
-
     ScheduleServiceEventCreateResponseData:
         allOf:
         - type: object
