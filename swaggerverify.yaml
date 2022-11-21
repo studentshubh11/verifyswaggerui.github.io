@@ -108,26 +108,7 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
 
-    /checkpoint/byids:
-     post:
-       tags:
-         - Checkpoint Service
-       summary: Gets CheckPoint By Passing Array OF Check[oint Ids
-       description: Gets CheckPoint By Passing Array OF Check[oints]
-       requestBody:
-         $ref: '#/components/requestBodies/CheckpointRequest'
-       responses:
-        201:
-          $ref: '#/components/responses/CheckpointGuidResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'      
-          
+   
 
   /checkpoint/byids:
     post:
@@ -690,7 +671,28 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
   
-  /patrols/schedule-event/{scheduleEventId}:
+  /patrols/schedule-event/{scheduleEventId}/routes/{routeId}/checkpoint-details:
+    get:
+      tags:
+        - Patrol Service
+      summary: Retrieves set of route checkpoints related to patrol event
+      description: Retrieves set of route checkpoints related to patrol event
+      parameters:
+      - $ref: '#/components/parameters/ScheduleEventId'
+      - $ref: '#/components/parameters/RouteId'
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolCheckpointDatailResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+            
+  /patrols/schedule-event/{scheduleEventId}:          
     get:
       tags:
         - Patrol Service
@@ -1400,6 +1402,16 @@ components:
         data:
           items:
             $ref: '#/components/schemas/ScheduleEventGetData'
+    
+    PatrolCheckpointDatailDataList:
+      title: Set of Checkpoint Detail
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/PatrolCheckpointDatailData'
 
     ScheduleServiceEventCreate:
       title: Event Create Response Of Scheduling Service
@@ -1874,14 +1886,23 @@ components:
      allOf:
         - $ref: '#/components/schemas/PatrolPutEntryData'
         - type: object
-          required:
-            - routeId
           properties:
             routeId:
               allOf:
                 - $ref: '#/components/schemas/Guid'
               title: Route Id 
-  
+    PatrolCheckpointDatailData:
+      allOf:
+        - $ref: '#/components/schemas/RouteCheckpointDatailData'
+        - type: object
+          properties:
+            isSkipped:
+              type: boolean
+            isVerified:
+              type: boolean
+            isVerifiedOrSkipped:
+              type: boolean
+              
     PatrolEntryData:
        allOf:
         - $ref: '#/components/schemas/PatrolPostEntryData'
@@ -2062,7 +2083,13 @@ components:
           schema:
             $ref: '#/components/schemas/ScheduleEventList'
 
-
+    PatrolCheckpointDatailResponse:
+      description: Patrol entry request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatrolCheckpointDatailDataList'
+            
     SchedulingServiceEventListResponse:
       description: Schedule Action Payload
       content:
@@ -2134,7 +2161,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PatrolPostEntryData'
-      
+   
     HasPatrolStartedRequest:
       content:
         application/json:
