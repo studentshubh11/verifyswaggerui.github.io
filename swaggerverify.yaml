@@ -671,7 +671,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 
   
-  /patrols/schedule-event/{scheduleEventId}/routes/{routeId}/checkpoint-details:
+  /patrols/schedule-event/{scheduleEventId}/route/{routeId}/checkpoint-details:
     get:
       tags:
         - Patrol Service
