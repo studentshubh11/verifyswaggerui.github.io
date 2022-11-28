@@ -283,20 +283,21 @@ paths:
       summary: Retrieves set of route entries by orgid
       description: Retrieves set of route entries
         Results may be paginated, if there are a high number of matches. This will be indicated by the
-        presence of a non-empty 'pageToken' value in the reply. Calling the API again with the value of
-        'pageToken' given as the 'pageToken' parameter will return further results. To retrieve all matching records,
-        iterate calls to the service until the 'pageToken' value is omitted from the reply.
+        presence of a non-empty 'pageStart' value in the reply. Calling the API again with the value of
+        'pageStart' given as the 'pageStart' parameter will return further results. To retrieve all matching records,
+        iterate calls to the service until the 'pageStart' value is omitted from the reply.
 
-        Note that 'pageToken' is a string value, and must be submitted verbatim to retrieve additional pages.
+        Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
         The content format of the string value can change at any time.
 
         Note that it is possible for the final 'page' of results to contain zero entries.
 
       parameters:
-      - $ref: "#/components/parameters/PageToken"
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
       responses:
         200:
-          $ref: '#/components/responses/RouteListResponse'
+          $ref: '#/components/responses/RouteListPaginationResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -453,20 +454,21 @@ paths:
       description: 
         Retrieves Patrols By OrgId
         Results may be paginated, if there are a high number of matches. This will be indicated by the
-        presence of a non-empty 'pageToken' value in the reply. Calling the API again with the value of
-        'pageToken' given as the 'pageToken' parameter will return further results. To retrieve all matching records,
-        iterate calls to the service until the 'pageToken' value is omitted from the reply.
+        presence of a non-empty 'pageStart' value in the reply. Calling the API again with the value of
+        'pageStart' given as the 'pageStart' parameter will return further results. To retrieve all matching records,
+        iterate calls to the service until the 'pageStart' value is omitted from the reply.
 
-        Note that 'pageToken' is a string value, and must be submitted verbatim to retrieve additional pages.
+        Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
         The content format of the string value can change at any time.
 
         Note that it is possible for the final 'page' of results to contain zero entries.
 
       parameters:
-      - $ref: '#/components/parameters/PageToken'
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
       responses:
         200:
-          $ref: '#/components/responses/PatrolListResponse'
+          $ref: '#/components/responses/PatrolListPaginationResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
         401:
@@ -934,10 +936,18 @@ components:
         type: string
         format: date-time
     
-    PageToken:
-      name: pageToken
+    PageStart:
+      name: pageStart
       in: query
       description: Token used to Retrieves additional matches
+      required: false
+      schema:
+        type: string
+    
+    PageCount:
+      name: pageCount
+      in: query
+      description: Token used to Retrieves total records
       required: false
       schema:
         type: string
@@ -1229,7 +1239,18 @@ components:
         struct:
           $ref: '#/components/schemas/RouteEntryStruct'
         data:
+          $ref: '#/components/schemas/RouteEntriesData'    
+          
+    RouteListPagination:
+      title: Set of Route Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/RouteEntryStruct'
+        data:
           $ref: '#/components/schemas/RouteEntriesData'
+        totalRecordCount:
+          type: number
           
     Route:
       title: Route Definition
@@ -1404,6 +1425,17 @@ components:
         data:
           items:
             $ref: '#/components/schemas/PatrolEntryData'
+    PatrolListPagination:
+      title: Set of Patrol Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/PatrolEntryData'
+        totalRecordCount: 
+          type: number
           
     Patrol:
       title: Patrol Definition
@@ -2048,6 +2080,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RouteList' 
+    
+    RouteListPaginationResponse:
+      description: Set of route entries response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RouteListPagination' 
             
     RouteCheckpointDetailListResponse:
       description: Set of route entries response
@@ -2075,6 +2114,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PatrolList'
+    PatrolListPaginationResponse:
+      description: Set of patrol entries response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatrolListPagination'
     PatrolEventListResponse:
       description: Set of patrol event entries response
       content:
