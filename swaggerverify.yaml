@@ -306,6 +306,74 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
+          
+          
+          
+  /routes/active:
+    
+    get:
+      tags:
+        - Route Service
+      summary: Retrieves set of active route entries by orgid
+      description: Retrieves set of active route entries
+        Results may be paginated, if there are a high number of matches. This will be indicated by the
+        presence of a non-empty 'pageStart' value in the reply. Calling the API again with the value of
+        'pageStart' given as the 'pageStart' parameter will return further results. To retrieve all matching records,
+        iterate calls to the service until the 'pageStart' value is omitted from the reply.
+
+        Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
+        The content format of the string value can change at any time.
+
+        Note that it is possible for the final 'page' of results to contain zero entries.
+
+      parameters:
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
+      responses:
+        200:
+          $ref: '#/components/responses/RouteListPaginationResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'    
+          
+  
+          
+  /routes/disabled:
+    
+    get:
+      tags:
+        - Route Service
+      summary: Retrieves set of disabled route entries by orgid
+      description: Retrieves set of disabled route entries
+        Results may be paginated, if there are a high number of matches. This will be indicated by the
+        presence of a non-empty 'pageStart' value in the reply. Calling the API again with the value of
+        'pageStart' given as the 'pageStart' parameter will return further results. To retrieve all matching records,
+        iterate calls to the service until the 'pageStart' value is omitted from the reply.
+
+        Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
+        The content format of the string value can change at any time.
+
+        Note that it is possible for the final 'page' of results to contain zero entries.
+
+      parameters:
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
+      responses:
+        200:
+          $ref: '#/components/responses/RouteListPaginationResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'            
     
   /routes/{routeId}:
     parameters:
