@@ -1671,6 +1671,7 @@ components:
         - startDateAndTime
         - endDateAndTime
         - recurrence
+        - interval
         - count
         - days
         - timeZone
@@ -1692,6 +1693,12 @@ components:
 
         count:
           type: number  
+
+        interval:
+          description: Works together with FREQ to specify how often the event should be repeated. For example, FREQ=DAILY;INTERVAL=2 means once every two days.
+
+
+          type: number    
 
         endDateAndTime:
           description: EndDateTime Should Be RFC3339 Compatible ex - 2006-01-02T15:04:05-07:00,-07:00 is the timezone offset
