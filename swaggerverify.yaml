@@ -290,7 +290,7 @@ paths:
         Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
         The content format of the string value can change at any time.
 
-        Note that it is possible for the final 'page' of results to contain zero entries.
+        Note that it is possible for the final 'page' of results to contain zero entriesand 'PageCount' max is 100.
 
       parameters:
       - $ref: "#/components/parameters/PageStart"
@@ -529,7 +529,7 @@ paths:
         Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
         The content format of the string value can change at any time.
 
-        Note that it is possible for the final 'page' of results to contain zero entries.
+        Note that it is possible for the final 'page' of results to contain zero entries and 'PageCount' max is 100.
 
       parameters:
       - $ref: "#/components/parameters/PageStart"
@@ -742,10 +742,22 @@ paths:
         - Patrol Service
       summary: Retrieves set of calendar schedule events related to event
       description: Retrieves calendar schedule events related to event
+        Results may be paginated, if there are a high number of matches. This will be indicated by the
+        presence of a non-empty 'pageStart' value in the reply. Calling the API again with the value of
+        'pageStart' given as the 'pageStart' parameter will return further results. To retrieve all matching records,
+        iterate calls to the service until the 'pageStart' value is omitted from the reply.
+
+        Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
+        The content format of the string value can change at any time.
+
+        Note that it is possible for the final 'page' of results to contain zero entriesand 'PageCount' max is 10.
+
       parameters:
       - $ref: '#/components/parameters/QueryEventId'
       - $ref: '#/components/parameters/FromDate'
       - $ref: '#/components/parameters/ToDate'
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
       responses:
         200:
           $ref: '#/components/responses/PatrolEventListResponse'
@@ -765,10 +777,21 @@ paths:
         - Patrol Service
       summary: Retrieves set of calendar schedule events related to site
       description: Retrieves calendar schedule events related to site
+         Results may be paginated, if there are a high number of matches. This will be indicated by the
+        presence of a non-empty 'pageStart' value in the reply. Calling the API again with the value of
+        'pageStart' given as the 'pageStart' parameter will return further results. To retrieve all matching records,
+        iterate calls to the service until the 'pageStart' value is omitted from the reply.
+
+        Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
+        The content format of the string value can change at any time.
+
+        Note that it is possible for the final 'page' of results to contain zero entriesand 'PageCount' max is 10.
       parameters:
       - $ref: '#/components/parameters/SiteId'
       - $ref: '#/components/parameters/FromDate'
       - $ref: '#/components/parameters/ToDate'
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
       responses:
         200:
           $ref: '#/components/responses/PatrolEventListResponse'
@@ -791,6 +814,8 @@ paths:
       parameters:
       - $ref: '#/components/parameters/ScheduleEventId'
       - $ref: '#/components/parameters/RouteId'
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
       responses:
         200:
           $ref: '#/components/responses/PatrolCheckpointDatailResponse'
