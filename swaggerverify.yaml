@@ -58,7 +58,7 @@ paths:
       - $ref: '#/components/parameters/CheckpointId'
       summary: Remove checkpoint from route API
       responses:
-        201:
+        200:
           $ref: '#/components/responses/RouteBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
@@ -77,7 +77,7 @@ paths:
         $ref: '#/components/requestBodies/HasPatrolStartedRequest'
       summary: Check if patrol has started
       responses:
-        201:
+        200:
           $ref: '#/components/responses/PatrolBooleanResponse'
         400:
           $ref: '#/components/responses/ErrorResponse'
