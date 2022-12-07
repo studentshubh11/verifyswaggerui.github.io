@@ -620,6 +620,14 @@ paths:
       parameters:
       - $ref: '#/components/parameters/ScheduleEventId'
       - $ref: '#/components/parameters/PatrolId'
+      requestBody:
+        content:
+          application/json:
+           schema:
+            properties:
+              description:
+                type: string
+                format: string
       responses:
         200:
           $ref: '#/components/responses/PatrolBooleanResponse'
@@ -868,7 +876,79 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse' 
+          
+  /patrols/risk-agreement:
+    post:
+      tags:
+        - Patrol Service
+      summary: Accept risk agreement
+      description: Accept risk agreement  
+      parameters:
+      - $ref: '#/components/parameters/PatrolId'
+      requestBody:
+        $ref: '#/components/requestBodies/RiskLicenseAcceptanceRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/PatrolGuidResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+          
+    get:
+      tags:
+        - Patrol Service
+      summary: Retrieve set of risk agreements
+      description: Retrieve set of risk agreements
+        Results may be paginated, if there are a high number of matches. This will be indicated by the
+        presence of a non-empty 'pageStart' value in the reply. Calling the API again with the value of
+        'pageStart' given as the 'pageStart' parameter will return further results. To retrieve all matching records,
+        iterate calls to the service until the 'pageStart' value is omitted from the reply.
+
+        Note that 'pageStart' is a string value, and must be submitted verbatim to retrieve additional pages.
+        The content format of the string value can change at any time.
+
+        Note that it is possible for the final 'page' of results to contain zero entries and 'PageCount' max is 100.
+
+      parameters:
+      - $ref: "#/components/parameters/PageStart"
+      - $ref: "#/components/parameters/PageCount"
+      responses:
+        200:
+          $ref: '#/components/responses/RiskLicenseAcceptanceListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+          
   
+  /patrols/risk-agreement/{patrolId}:
+    get:
+      tags:
+        - Patrol Service
+      summary: Retrieve set of risk agreements
+      description: Retrieve set of risk agreements
+      parameters:
+      - $ref: '#/components/parameters/PatrolId'
+      responses:
+        200:
+          $ref: '#/components/responses/RiskLicenseAcceptanceListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
 
   /scheduling:
     post:
@@ -1549,6 +1629,16 @@ components:
           items:
             $ref: '#/components/schemas/PatrolEventData'
             
+    RiskLicenseAcceptanceList:
+      title: Risk License Acceptance
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/PatrolEntryStruct'
+        data:
+          items:
+            $ref: '#/components/schemas/RiskLicenseAcceptanceData'
+            
     PatrolCheckInList:
       title: Set of Checkin Definition
       type: object
@@ -1844,7 +1934,61 @@ components:
           type: boolean
         key:
           type: string
-                
+    
+    RiskLicenseAcceptanceData:
+      title: Patrol Risk License Acceptance
+      type: object
+      required:
+        - riskId
+        - patrolId
+        - scheduleEventId
+        - agree
+      properties:
+        riskId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Risk Id
+          readOnly: true
+        patrolId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Patrol Id
+        eventId:
+          type: string
+          title: Event Id
+          readOnly: true
+        scheduleEventId:
+          type: string
+          description: Scheduled EventId 
+        agree:
+          type: boolean
+          description: Accept risk license
+        orgId:
+          title: Organisation Id
+          type: integer
+          readOnly: true
+        createdDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Create date of entry. Default to now() if not supplied
+          readOnly: true
+        modifiedDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Last modify date of entry. Default to now() if not supplied
+          readOnly: true
+        createdBy:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+            - title: User Id creating record. Default to current use if not supplied
+          readOnly: true
+        modifiedBy:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+            - title: User Id that last modified the record. Default to current use if not supplied
+          readOnly: true 
+          
+          
     PatrolEventData:
       title: Patrol Event
       type: object
@@ -2258,6 +2402,13 @@ components:
           schema:
             $ref: '#/components/schemas/PatrolCheckpointDatailDataList'
             
+    RiskLicenseAcceptanceListResponse:
+      description: Patrol risk license acceptance request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RiskLicenseAcceptanceList'
+            
     SchedulingServiceEventListResponse:
       description: Schedule Action Payload
       content:
@@ -2329,6 +2480,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PatrolPostEntryData'
+            
+    RiskLicenseAcceptanceRequest:
+      description: Patrol risk acceptance entry request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RiskLicenseAcceptanceData'
    
     HasPatrolStartedRequest:
       content:
