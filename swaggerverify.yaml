@@ -1944,15 +1944,20 @@ components:
         - scheduleEventId
         - agree
       properties:
-        riskId:
+        riskAgreementId:
           allOf:
             - $ref: '#/components/schemas/Guid'
-          title: Risk Id
+          title: Risk Agreement Id
           readOnly: true
         patrolId:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Patrol Id
+        routeId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Route Id
+          readOnly: true
         eventId:
           type: string
           title: Event Id
@@ -1960,7 +1965,7 @@ components:
         scheduleEventId:
           type: string
           description: Scheduled EventId 
-        agree:
+        accepted:
           type: boolean
           description: Accept risk license
         orgId:
