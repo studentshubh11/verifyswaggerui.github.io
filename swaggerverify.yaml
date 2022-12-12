@@ -586,10 +586,39 @@ paths:
         403:
           $ref: '#/components/responses/ErrorResponse'
         500:
-          $ref: '#/components/responses/ErrorResponse'             
+          $ref: '#/components/responses/ErrorResponse'  
+          
+          
+  /patrols/decline/{scheduleEventId}/patrol/{patrolId}:
+    put:
+      tags:
+        - Patrol Service
+      summary: Decline patrol event
+      description: Decline patrol event
+      parameters:
+      - $ref: '#/components/parameters/ScheduleEventId'
+      - $ref: '#/components/parameters/PatrolId'
+      requestBody:
+        content:
+          application/json:
+           schema:
+            properties:
+              description:
+                type: string
+                format: string
+      responses:
+        200:
+          $ref: '#/components/responses/PatrolBooleanResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'       
                   
           
-               
   /patrols/start/{scheduleEventId}/patrol/{patrolId}:
     put:
       tags:
