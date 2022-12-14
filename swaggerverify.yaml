@@ -1163,7 +1163,7 @@ components:
     Limit:
       name: limit
       in: query
-      description: Token used to Retrieves additional matches
+      description: Total Records To Be Queried
       required: false
       schema:
         type: string
@@ -1171,7 +1171,7 @@ components:
     Page:
       name: page
       in: query
-      description: Token used to Retrieves total records
+      description: Records To Be Skipped ,if the limit is 10 and page is 1,total Records skipped would be 10x1=10
       required: false
       schema:
         type: string    
