@@ -241,6 +241,10 @@ paths:
       summary: Retrieves a set of Checkpoint entries range On the Basis Of OrgId Passed Through token 
       description: 
         Retrieves the  set of Checkpoint entries
+
+      parameters:
+      - $ref: "#/components/parameters/Limit"
+      - $ref: "#/components/parameters/Page"  
      
       responses:
         200:
@@ -1153,6 +1157,22 @@ components:
       required: false
       schema:
         type: string
+
+    Limit:
+      name: limit
+      in: query
+      description: Token used to Retrieves additional matches
+      required: false
+      schema:
+        type: string
+    
+    Page:
+      name: page
+      in: query
+      description: Token used to Retrieves total records
+      required: false
+      schema:
+        type: string    
   schemas:
     Guid:
       title: A GUID Identifier
