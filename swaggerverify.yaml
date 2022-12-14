@@ -222,6 +222,8 @@ paths:
       description: Retrieves checkpoint entries related to site
       parameters:
       - $ref: '#/components/parameters/SiteId'
+      - $ref: "#/components/parameters/Limit"
+      - $ref: "#/components/parameters/Page"  
       responses:
         200:
           $ref: '#/components/responses/CheckpointListResponse'
