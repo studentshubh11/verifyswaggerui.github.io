@@ -918,8 +918,6 @@ paths:
         - Patrol Service
       summary: Accept risk agreement
       description: Accept risk agreement  
-      parameters:
-      - $ref: '#/components/parameters/PatrolId'
       requestBody:
         $ref: '#/components/requestBodies/RiskLicenseAcceptanceRequest'
       responses:
@@ -2071,6 +2069,14 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           description: Patrol User Id
+        startDateAndTime:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+        endDateAndTime:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+        status:
+          $ref: '#/components/schemas/PatrolStatus'
         riskAssessmentId:
             type: string
             title: Risk Assessment Id 
@@ -2088,12 +2094,6 @@ components:
         # email:
         #   type: string
         #   description: Patrol User Email
-        startDateAndTime:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-        endDateAndTime:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
         timeZone:
           type: string
         location:
@@ -2278,6 +2278,9 @@ components:
               example: true
               readOnly: true 
             IsStarted:
+              type: boolean
+              readOnly: true 
+            IsCompleted:
               type: boolean
               readOnly: true 
             createdByName:
