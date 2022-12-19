@@ -1550,7 +1550,8 @@ components:
         checkpointId:
           $ref: '#/components/schemas/Guid'
         siteId:
-          $ref: '#/components/schemas/Guid'
+          type: integer
+          format: int
         position:
           type: integer
           format: int
