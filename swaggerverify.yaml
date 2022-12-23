@@ -1023,6 +1023,28 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'      
+
+  /scheduling/list/count:
+    post:
+      tags:
+        - Scheduling Service
+      summary: Retrieves Google Calendar events
+      description:  Retrieves Google Calendar events
+      requestBody:
+        $ref: '#/components/requestBodies/ScheduleServiceEventListRequestCount'
+
+      responses:
+        200:
+          $ref: '#/components/responses/SchedulingServiceEventListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'            
+
      
   
      
@@ -1902,7 +1924,21 @@ components:
             type: string
 
         calendarId:
-            type: string             
+            type: string     
+
+
+    ScheduleServiceListCountPayloadData:
+      type: object
+      required:
+        - maxResults
+        
+      properties:
+      
+        eventId:
+            type: string
+
+        calendarId:
+            type: string                   
                    
          
     ScheduleServiceEventCreateResponseData:
@@ -2517,7 +2553,15 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ScheduleServiceListPayloadData'         
+            $ref: '#/components/schemas/ScheduleServiceListPayloadData' 
+
+
+    ScheduleServiceEventListRequestCount:
+      description: Schedule Service  Event  List Payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduleServiceListCountPayloadData'                   
                     
   
     PatrolCheckinRequest:
