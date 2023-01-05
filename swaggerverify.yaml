@@ -245,11 +245,8 @@ paths:
       - $ref: '#/components/parameters/SiteId'
       - $ref: "#/components/parameters/Timestamp"
       
-      responses:
-        200:
-          $ref: '#/components/responses/CheckpointListResponse'
-        404:
-          $ref: '#/components/responses/ErrorResponse'
+    
+          
            
 
           
