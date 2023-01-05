@@ -235,6 +235,29 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
+
+    head:
+      tags:
+        - Checkpoint Service
+      summary: Checks Whether There is Any data available For Sync 
+      description: Checks Whether There is Any data available For Sync 
+      parameters:
+      - $ref: '#/components/parameters/SiteId'
+      - $ref: "#/components/parameters/Limit"
+      
+      responses:
+        200:
+          $ref: '#/components/responses/CheckpointListResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'      
+
+          
                   
   /checkpoint/:
     get:
@@ -283,18 +306,6 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-    head:
-      tags:
-        - Route Service
-      summary:  Retrieves route 'Last-Modified' in the request header
-      description: 
-        Retrieves route 'Last-Modified' in the request header
-      responses:
-        200:
-          description: successful operation
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-          
     get:
       tags:
         - Route Service
@@ -313,8 +324,6 @@ paths:
       parameters:
       - $ref: "#/components/parameters/PageStart"
       - $ref: "#/components/parameters/PageCount"
-      - $ref: '#/components/parameters/FromDate'
-      - $ref: '#/components/parameters/ToDate'
       responses:
         200:
           $ref: '#/components/responses/RouteListPaginationResponse'
@@ -535,18 +544,6 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
           
-    head:
-      tags:
-        - Patrol Service
-      summary:  Retrieves patrol 'Last-Modified' in the request header
-      description: 
-        Retrieves patrol 'Last-Modified' in the request header
-      responses:
-        200:
-          description: successful operation
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-          
     get:
       tags:
         - Patrol Service
@@ -566,8 +563,6 @@ paths:
       parameters:
       - $ref: "#/components/parameters/PageStart"
       - $ref: "#/components/parameters/PageCount"
-      - $ref: '#/components/parameters/FromDate'
-      - $ref: '#/components/parameters/ToDate'
       responses:
         200:
           $ref: '#/components/responses/PatrolListPaginationResponse'
@@ -579,7 +574,6 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
         500:
           $ref: '#/components/responses/ErrorResponse'
-         
   
   /patrols/checkin/{scheduleEventId}:
     post:
@@ -809,19 +803,6 @@ paths:
           
   
   /patrols/events:
-  
-          
-    head:
-      tags:
-        - Patrol Service
-      summary:  Retrieves patrol event 'Last-Modified' in the request header
-      description: 
-        Retrieves patrol event 'Last-Modified' in the request header
-      responses:
-        200:
-          description: successful operation
-        403:
-          $ref: '#/components/responses/ErrorResponse'
     get:
       tags:
         - Patrol Service
@@ -839,8 +820,8 @@ paths:
 
       parameters:
       - $ref: '#/components/parameters/QueryEventId'
-      - $ref: '#/components/parameters/EventFromDate'
-      - $ref: '#/components/parameters/EventToDate'
+      - $ref: '#/components/parameters/FromDate'
+      - $ref: '#/components/parameters/ToDate'
       - $ref: "#/components/parameters/PageStart"
       - $ref: "#/components/parameters/PageCount"
       responses:
@@ -873,8 +854,8 @@ paths:
         Note that it is possible for the final 'page' of results to contain zero entriesand 'PageCount' max is 10.
       parameters:
       - $ref: '#/components/parameters/SiteId'
-      - $ref: '#/components/parameters/EventFromDate'
-      - $ref: '#/components/parameters/EventToDate'
+      - $ref: '#/components/parameters/FromDate'
+      - $ref: '#/components/parameters/ToDate'
       - $ref: "#/components/parameters/PageStart"
       - $ref: "#/components/parameters/PageCount"
       responses:
@@ -1189,7 +1170,7 @@ components:
       required: false
       schema:
         type: string
-    EventFromDate:
+    FromDate:
       name: fromDate
       in: query
       description: The beginning of the date range (UTC), formatted as "YYYY-MM-DDTHH:MM:SS" (e.g. "1969-07-21T02:56:15")
@@ -1197,25 +1178,11 @@ components:
       schema:
         type: string
         format: date-time
-    EventToDate:
-      name: toDate
-      in: query
-      description: The end of the date range (UTC), formatted as "YYYY-MM-DDTHH:MM:SS" (e.g. "1969-07-21T02:56:15")
-      schema:
-        type: string
-        format: date-time
-    FromDate:
-      name: fromDate
-      in: query
-      description: The beginning of the date range (UTC), formatted as "YYYY-MM-DDTHH:MM:SS" (e.g. "1969-07-21T02:56:15")
-      required: false
-      schema:
-        type: string
-        format: date-time
     ToDate:
       name: toDate
       in: query
       description: The end of the date range (UTC), formatted as "YYYY-MM-DDTHH:MM:SS" (e.g. "1969-07-21T02:56:15")
+      required: true
       schema:
         type: string
         format: date-time
@@ -1243,6 +1210,14 @@ components:
       required: false
       schema:
         type: string
+
+    Timestamp:
+      name: timeStamp
+      in: query
+      description: Timestamp in "YYYY-MM-DDTHH:MM:SS"
+      required: true
+      schema:
+        type: string    
     
     Page:
       name: page
