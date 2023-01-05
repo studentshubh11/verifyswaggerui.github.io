@@ -243,19 +243,14 @@ paths:
       description: Checks Whether There is Any data available For Sync 
       parameters:
       - $ref: '#/components/parameters/SiteId'
-      - $ref: "#/components/parameters/Limit"
+      - $ref: "#/components/parameters/Timestamp"
       
       responses:
         200:
           $ref: '#/components/responses/CheckpointListResponse'
-        400:
+        404:
           $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'      
+           
 
           
                   
