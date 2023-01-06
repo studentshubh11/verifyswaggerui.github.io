@@ -297,26 +297,6 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
      
-  /routes/synchronize-offline-data:       
-    post:
-      tags:
-        - Route Service
-      summary: Synchronise offline route data
-      description: Synchronise offline route data
-      requestBody:
-        $ref: '#/components/requestBodies/RouteCheckpointSynchronisationPayloadRequest'
-      responses:
-        201:
-          $ref: '#/components/responses/RouteSynchronisationResponse'
-        400:
-          $ref: '#/components/responses/ErrorResponse'
-        401:
-          $ref: '#/components/responses/ErrorResponse'
-        403:
-          $ref: '#/components/responses/ErrorResponse'
-        500:
-          $ref: '#/components/responses/ErrorResponse'
-          
     head:
       tags:
         - Route Service
@@ -362,7 +342,27 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
           
           
-          
+  
+  /routes/synchronize-offline-data:       
+    post:
+      tags:
+        - Route Service
+      summary: Synchronise offline route data
+      description: Synchronise offline route data
+      requestBody:
+        $ref: '#/components/requestBodies/RouteCheckpointSynchronisationPayloadRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/RouteSynchronisationResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+                  
   /routes/active:
     
     get:
@@ -1661,8 +1661,8 @@ components:
       type: object
       properties:
         routes:
-          allOf:
-            - $ref: '#/components/schemas/RouteSynchronisationEntryData'
+          items:
+              $ref: '#/components/schemas/RouteSynchronisationEntryData'
           title: Route 
         checkpoints:
           items:
