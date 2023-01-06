@@ -1707,13 +1707,13 @@ components:
           title: Route Synchronisation Output
           type: object 
           properties:
-            numberOfRouteAdded:
+            numberOfRoutesAdded:
               type: integer
-            numberOfRouteUpdate:
+            numberOfRoutesUpdated:
               type: integer
-            numberOfCheckpointAdded:
+            numberOfCheckpointsAdded:
               type: integer
-            numberOfCheckpointUpdate:
+            numberOfCheckpointsUpdated:
               type: integer
             message:
               type: array
