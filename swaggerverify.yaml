@@ -1767,9 +1767,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Route Id
-        orgId:
-          title: Organisation Id
-          type: integer
         name:
           type: string
           format: string
@@ -1784,8 +1781,6 @@ components:
           title: Tolerance(In Seconds)
         status:
           $ref: '#/components/schemas/RouteStatus'
-        isAssigned:
-          type: boolean
         description:
           type: string
         note:
