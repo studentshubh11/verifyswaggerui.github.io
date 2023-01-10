@@ -1843,14 +1843,6 @@ components:
           type: array
           items:
             type: string
-        createdDate:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-            - title: Create date of entry. Default to now() if not supplied
-        modifiedDate:
-          allOf:
-            - $ref: '#/components/schemas/DateTime'
-            - title: Last modify date of entry. Default to now() if not supplied
             
     RouteSynchronisationEntryData:
       title: Route Synchronisation Entry
