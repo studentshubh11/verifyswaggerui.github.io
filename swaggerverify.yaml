@@ -108,7 +108,26 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
 
-   
+ 
+  /checkpoint/synchronize-offline-data:       
+    post:
+      tags:
+        - Checkpoint Service
+      summary: Synchronise offline checkpoint data
+      description: Synchronise offline checkpoint data
+      requestBody:
+        $ref: '#/components/requestBodies/CheckpointSynchronisationPayloadRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/CheckpointSynchronisationResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        403:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'  
 
   /checkpoint/byids:
     post:
@@ -1483,6 +1502,92 @@ components:
            type: number
            format: number
            example: 1
+    
+    
+    CheckpointSynchronisationOutputData:
+    
+      title: Checkpoint Synchronisation Definition
+      type: object
+      properties:
+        struct:
+          $ref: '#/components/schemas/CheckpointEntryStruct'
+        data:
+          title: Checkpoint Synchronisation Output
+          type: object 
+          properties:
+            numberOfCheckpointsAdded:
+              type: integer
+            numberOfCheckpointsUpdated:
+              type: integer
+            message:
+              type: array
+              items:
+                type: string   
+                
+                
+    CheckpointSynchronisationPayload:
+      title: Synchronise checkpoint entries with associated checkpoints
+      type: array
+      items:
+        $ref: '#/components/schemas/CheckpointSynchronisationData'
+      
+   
+    CheckpointSynchronisationData:
+      title: Checkpoint Entry
+      type: object
+      required:
+        - name
+        - siteId
+        - verificationTypeId
+        - location
+      properties:
+        id:
+          # Returned by GET, not used in POST/PUT/PATCH
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Checkpoint Id
+        siteId:
+          type: number
+          title: Site Id  
+        verificationTypeId:
+          allOf:
+            - $ref: '#/components/schemas/Guid'
+          title: Verification Type Id
+        name:
+          type: string
+          format: string
+          example: 'Checkpiont 1'
+        location:
+          $ref: '#/components/schemas/LocationData'
+        referenceImages:
+          type: array
+          items:
+            type: string
+        imageMetaData: 
+          $ref: '#/components/schemas/ImageMetaData'
+        plotLocation:
+          type: boolean
+        toleranceInMeter:
+          type: number
+          format: float
+          description: actually tolerance value
+          example: 40
+        status:
+          $ref: '#/components/schemas/CheckpointStatus'
+        description:
+          type: string
+        note:
+          type: string
+        risks:
+          type: string  
+        createdDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Create date of entry. Default to now() if not supplied
+        modifiedDate:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - title: Last modify date of entry. Default to now() if not supplied
 
     CheckpointEntryData:
       title: Checkpoint Entry
@@ -1658,15 +1763,11 @@ components:
               
     RouteCheckpointSynchronisationPayload:
       title: Synchronise route entries with associated checkpoints
-      type: object
-      properties:
-        routes:
-          items:
-              $ref: '#/components/schemas/RouteSynchronisationEntryData'
-          title: Route 
-        checkpoints:
-          items:
-              $ref: '#/components/schemas/RouteCheckpointSynchronisationEntryData'
+      type: array
+      items:
+          $ref: '#/components/schemas/RouteSynchronisationEntryData'
+     
+        
               
     RouteCheckpointDatailData:
       allOf:
@@ -1730,10 +1831,6 @@ components:
           type: boolean
         isUpdated:
           type: boolean
-        routeId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Route Id
         checkpointId:
           $ref: '#/components/schemas/Guid'
         siteId:
@@ -1793,6 +1890,9 @@ components:
           allOf:
             - $ref: '#/components/schemas/DateTime'
             - title: Last modify date of entry. Default to now() if not supplied
+        checkpoints:
+          items:
+              $ref: '#/components/schemas/RouteCheckpointSynchronisationEntryData'
         
       
     RouteEntryData:
@@ -2627,6 +2727,13 @@ components:
             $ref: '#/components/schemas/Checkpoint'
                
     
+    CheckpointSynchronisationResponse:
+      description: Synchronisation of offline checkpoint data response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckpointSynchronisationOutputData'
+            
     RouteSynchronisationResponse:
       description: Synchronisation of offline route data response
       content:
@@ -2796,6 +2903,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RouteCheckpointEntryData'
+    
+    CheckpointSynchronisationPayloadRequest:
+      description: Synchronisation of Offline Checkpoint Data
+      content:
+        application/json:
+          schema:
+             $ref: '#/components/schemas/CheckpointSynchronisationPayload'
             
     RouteCheckpointSynchronisationPayloadRequest:
       description: Synchronisation of Offline Route Data
