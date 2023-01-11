@@ -1535,12 +1535,12 @@ components:
     CheckpointSynchronisationData:
       title: Checkpoint Entry
       type: object
-      required:
-        - name
-        - siteId
-        - verificationTypeId
-        - location
       properties:
+        
+        isNew:
+          type: boolean
+        isUpdated:
+          type: boolean
         id:
           # Returned by GET, not used in POST/PUT/PATCH
           allOf:
