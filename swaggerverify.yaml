@@ -1852,7 +1852,7 @@ components:
           type: boolean
         isUpdated:
           type: boolean
-        routeId:
+        id:
           allOf:
             - $ref: '#/components/schemas/Guid'
           title: Route Id
