@@ -1477,10 +1477,10 @@ components:
       type: object
       
       properties:
-        lat:
+        latitude:
           allOf:
             - $ref: '#/components/schemas/Numeric'
-        long:
+        longitude:
           allOf:
             - $ref: '#/components/schemas/Numeric'
     ImageMetaData:
@@ -1574,6 +1574,8 @@ components:
           example: 40
         status:
           $ref: '#/components/schemas/CheckpointStatus'
+        uniqueReferenceId:
+          type: string
         description:
           type: string
         note:
