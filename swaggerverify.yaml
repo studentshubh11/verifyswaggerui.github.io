@@ -818,7 +818,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     
                   
-  /patrols/user/{userId}:
+  /patrols/user/{userIdentity}:
     get:
       tags:
         - Patrol Service
@@ -826,7 +826,7 @@ paths:
       description: 
         Retrieves the Assinged Patrol entries
       parameters:
-      - $ref: '#/components/parameters/UserId'
+      - $ref: '#/components/parameters/UserIdentity'
       responses:
         200:
           $ref: '#/components/responses/PatrolListResponse'
@@ -1178,13 +1178,13 @@ components:
       schema:
         type: string
         
-    UserId:
-      name: userId
+    UserIdentity:
+      name: userIdentity
       in: path
-      description: User id
+      description: User email
       required: true
       schema:
-        $ref: '#/components/schemas/Guid'
+        type: string
     PatrolId:
       name: patrolId
       in: path
@@ -2267,9 +2267,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/Guid'
           readOnly: true
-        assignedUserId:
-          allOf:
-          - $ref: '#/components/schemas/Guid'
+        assignedTo:
+          type: string
+          title: Assigned user
           readOnly: true
         
         riskAssessmentId:
@@ -2407,10 +2407,9 @@ components:
         scheduleEventId:
           type: string
           description: Scheduled EventId from google scheduler api (id)
-        assignedUserId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          description: Patrol User Id
+        assignedTo:
+          type: string
+          title: Assigned user
         startDateAndTime:
           allOf:
             - $ref: '#/components/schemas/DateTime'
@@ -2420,8 +2419,8 @@ components:
         status:
           $ref: '#/components/schemas/PatrolStatus'
         riskAssessmentId:
-            type: string
-            title: Risk Assessment Id 
+          type: string
+          title: Risk Assessment Id 
         riskAssessmentSummary:
           type: string
           title: Risk Assessment summary  
@@ -2555,10 +2554,9 @@ components:
         isRepeated:
           type: boolean
           example: false
-        assignedUserId:
-          allOf:
-            - $ref: '#/components/schemas/Guid'
-          title: Assigned User Id  
+        assignedTo:
+          type: string
+          title: Assigned user
         tolerance:
           type: integer
           format: int64
