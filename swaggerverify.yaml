@@ -639,8 +639,8 @@ paths:
     post:
       tags:
         - Patrol Service
-      summary: Synchronise offline route data
-      description: Synchronise offline route data
+      summary: Synchronise offline patrol data
+      description: Synchronise offline patrol data
       requestBody:
         $ref: '#/components/requestBodies/PatrolEventSynchronisationPayloadRequest'
       responses:
