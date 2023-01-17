@@ -2164,13 +2164,13 @@ components:
         
     PatrolEventSynchronisationOutputData:
     
-      title: Route Synchronisation Definition
+      title: Patrol Synchronisation Definition
       type: object
       properties:
         struct:
           $ref: '#/components/schemas/PatrolEntryStruct'
         data:
-          title: Route Synchronisation Output
+          title: Patrol Synchronisation Output
           type: object 
           properties:
             numberOfPatrolEventsStarted:
@@ -2205,7 +2205,7 @@ components:
             - title: Last modify date of entry.
           
     PatrolEventCheckpointSynchronisationEntryData:
-      title: Route Entry along with set of Checkpoint
+      title: Patrol Entry along with set of Checkpoint
       type: object   
       properties:
         checkpointName:
