@@ -2219,10 +2219,15 @@ components:
         position:
           type: integer
           format: int
+        isSkipped:
+          type: boolean
+          default: false
         tags:
           type: array
           items:
             type: string
+        description:
+          type: string
         modifiedDate:
           allOf:
             - $ref: '#/components/schemas/DateTime'
