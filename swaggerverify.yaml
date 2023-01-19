@@ -254,19 +254,6 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
 
-    head:
-      tags:
-        - Checkpoint Service
-      summary: Checks Whether There is Any data available For Sync 
-      description: Checks Whether There is Any data available For Sync 
-      parameters:
-      - $ref: '#/components/parameters/SiteId'
-      - $ref: "#/components/parameters/Timestamp"
-      responses:
-        200:
-          description: successful operation
-        404:
-          $ref: '#/components/responses/ErrorResponse'
       
                   
   /checkpoint/:
@@ -280,6 +267,8 @@ paths:
       parameters:
       - $ref: "#/components/parameters/Limit"
       - $ref: "#/components/parameters/Page"  
+      - $ref: '#/components/parameters/FromDate'
+      - $ref: '#/components/parameters/ToDate'
      
       responses:
         200:
@@ -293,7 +282,19 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'    
                   
-          
+  
+    head:
+      tags:
+        - Checkpoint Service
+      summary: Checks Whether There is Any data available For Sync 
+      description: Checks Whether There is Any data available For Sync 
+      parameters:
+      - $ref: '#/components/parameters/QuerySiteId'
+      responses:
+        200:
+          description: successful operation
+        404:
+          $ref: '#/components/responses/ErrorResponse'        
           
   /routes:
     
@@ -1209,7 +1210,7 @@ components:
     PatrolId:
       name: patrolId
       in: path
-      description: Patrol id
+      description: Patrol Id
       required: true
       schema:
         $ref: '#/components/schemas/Guid'
@@ -1231,35 +1232,42 @@ components:
     RouteId:
       name: routeId
       in: path
-      description: Route id
+      description: Route Id
       required: true
       schema:
         $ref: '#/components/schemas/Guid'
     CheckpointId:
       name: checkpointId
       in: path
-      description: Checkpoint id
+      description: Checkpoint Id
       required: true
       schema:
         $ref: '#/components/schemas/Guid'
     SiteId:
       name: siteId
       in: path
-      description: Site id
+      description: Site Id
       required: true
       schema:
         type: integer
+    QuerySiteId:
+      name: siteId
+      in: query
+      description: Site Id
+      required: false
+      schema:
+        type: string
     RiskAssessmentId:
       name: riskAssessmentId
       in: path
-      description: Risk Assessment id
+      description: Risk Assessment Id
       required: true
       schema:
         type: string
     QueryEventId:
       name: eventId
       in: query
-      description: Event id
+      description: Event Id
       required: false
       schema:
         type: string
